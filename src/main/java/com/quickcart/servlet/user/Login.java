@@ -59,21 +59,24 @@ public class Login extends HttpServlet {
                 
                 if (rs.next()) {
                     // Get data from result set
-                    String passwordHash = rs.getString("Password_Hash");
-                    String passwordSalt = rs.getString("Password_Salt");
-                    String displayName = rs.getString("DisplayName");
+                	Integer userId = rs.getInt("UserID");
+                	String displayName = rs.getString("DisplayName");
+                    String passwordHash = rs.getString("PasswordHashedSalt");
+                    String passwordSalt = rs.getString("Salt");
+                    String email = rs.getString("Email");
                     String phoneNumber = rs.getString("PhoneNumber");
                     LocalDateTime createdAt = rs.getTimestamp("CreatedAt").toLocalDateTime();
 
                     // Hash the input password with the salt
-                    String hashedInputPassword = hashPassword(password, passwordSalt); // Implement this method
+                    String hashedInputPassword = db.hashPassword(password, passwordSalt); // Implement this method
 
                     // Check if the hashed password matches
                     if (hashedInputPassword.equals(passwordHash)) {
                         // Map values to UserDTO
                         user = new UserDTO();
-                        user.setEmail(userEmail);
+                        user.setUserId(userId);
                         user.setDisplayName(displayName);
+                        user.setEmail(email);
                         user.setPhoneNumber(phoneNumber);
                         user.setCreatedAt(createdAt);
 
@@ -104,32 +107,4 @@ public class Login extends HttpServlet {
         out.close();
     }
 
-
-	
-	private String hashPassword(String password, String salt) {
-	    try {
-	        // Combine password and salt
-	        String combined = password + salt;
-
-	        // Create a MessageDigest instance for SHA-256
-	        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-
-	        // Hash the combined string
-	        byte[] hashBytes = digest.digest(combined.getBytes());
-
-	        // Convert byte array to hexadecimal string
-	        StringBuilder hexString = new StringBuilder();
-	        for (byte b : hashBytes) {
-	            String hex = Integer.toHexString(0xff & b);
-	            if (hex.length() == 1) {
-	                hexString.append('0'); // Add leading zero for single digit
-	            }
-	            hexString.append(hex);
-	        }
-	        
-	        return hexString.toString(); // Return the hashed password
-	    } catch (NoSuchAlgorithmException e) {
-	        throw new RuntimeException("Hashing algorithm not found", e);
-	    }
-	}
 }

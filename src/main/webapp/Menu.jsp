@@ -3,9 +3,11 @@
 <%@ page import="com.quickcart.data.models.UserDTO" %> 
 <%@ include file="web-library/Reference.jsp" %>    
 
+
+
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #FFA500;">
     <div class="container">
-        <a class="navbar-brand text-white" href="#"><b>QuickCart</b></a>
+        <a class="navbar-brand text-white" href="Home.jsp"><b>QuickCart</b></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -16,12 +18,17 @@
                     UserDTO userName = (UserDTO) session.getAttribute("userData");
                     if (userName != null) {
                 %>
-                    <li class="nav-item">
+                     <li class="nav-item">
                         <a class="nav-link text-white" href="cart.jsp"><b>My Cart</b></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#"><b><%= userName.getEmail() %></b></a>
+                        <a class="nav-link text-white" id= "profile" href="Profile"><b><%= userName.getDisplayName() %></b></a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link text-white" id= "logout" href="Logout"><b>Log Out</b></a>
+                    </li>
+
                 <% 
                     } else { 
                 %>
@@ -34,4 +41,5 @@
             </ul>
         </div>
     </div>
+    
 </nav>
