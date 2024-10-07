@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import com.quickcart.data.models.UserDTO;
 import com.quickcart.general.Database;
+import com.quickcart.general.Response;
 
 /**
  * Servlet implementation class Login
@@ -26,110 +27,122 @@ import com.quickcart.general.Database;
 @WebServlet("/User/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Login() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Set response content type to JSON
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public Login() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-        String userEmail = request.getParameter("email");
-        String password = request.getParameter("password");
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Set response content type to JSON
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 
-        // Use a PrintWriter to send the JSON response
-        PrintWriter out = response.getWriter();
-        
-        if (userEmail != null && password != null && !userEmail.isEmpty() && !password.isEmpty()) {
-            Database db = new Database();
-            UserDTO user = null;
+		String userEmail = request.getParameter("email");
+		String password = request.getParameter("password");
 
-            try {
-                // Call stored procedure to verify login
-                ArrayList<Object> vals = new ArrayList<>();
-                vals.add(userEmail);
-                ResultSet rs = db.runSP("{CALL sp_user_verify_login(?)}", vals);
-                
-                if (rs.next()) {
-                    // Get data from result set
-                    String passwordHash = rs.getString("Password_Hash");
-                    String passwordSalt = rs.getString("Password_Salt");
-                    String displayName = rs.getString("DisplayName");
-                    String phoneNumber = rs.getString("PhoneNumber");
-                    LocalDateTime createdAt = rs.getTimestamp("CreatedAt").toLocalDateTime();
+		// Use a PrintWriter to send the JSON response
+		PrintWriter out = response.getWriter();
 
-                    // Hash the input password with the salt
-                    String hashedInputPassword = hashPassword(password, passwordSalt); // Implement this method
+		if (userEmail != null && password != null && !userEmail.isEmpty() && !password.isEmpty()) {
+			Database db = new Database();
+			UserDTO user = null;
 
-                    // Check if the hashed password matches
-                    if (hashedInputPassword.equals(passwordHash)) {
-                        // Map values to UserDTO
-                        user = new UserDTO();
-                        user.setEmail(userEmail);
-                        user.setDisplayName(displayName);
-                        user.setPhoneNumber(phoneNumber);
-                        user.setCreatedAt(createdAt);
+			try {				
+				// Call stored procedure to verify login
+				ArrayList<Object> vals = new ArrayList<>();
+				vals.add(userEmail);
+				ResultSet rs = db.runSP("{CALL sp_user_verify_login(?)}", vals);
 
-                        // Add userDTO to session
-                        HttpSession session = request.getSession();
-                        session.setAttribute("userData", user);
+				if (rs.next()) {
+					// Get data from result set
+					String passwordHash = rs.getString("Password_Hash");
+					String passwordSalt = rs.getString("Password_Salt");
+					String displayName = rs.getString("DisplayName");
+					String phoneNumber = rs.getString("PhoneNumber");
+					LocalDateTime createdAt = rs.getTimestamp("CreatedAt").toLocalDateTime();
 
-                        // Respond with success message
-                        out.write("{\"success\": true, \"message\": \"Login successful\"}");
-                    } else {
-                        // Invalid password
-                        out.write("{\"success\": false, \"message\": \"Invalid password\"}");
-                    }
-                } else {
-                    // User not found
-                    out.write("{\"success\": false, \"message\": \"User not found\"}");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                out.write("{\"success\": false, \"message\": \"Database error\"}");
-            }
-        } else {
-            // Missing user or password
-            out.write("{\"success\": false, \"message\": \"Email and password are required\"}");
+					// Hash the input password with the salt
+					String hashedInputPassword = hashPassword(password, passwordSalt); // Implement this method
+
+					// Check if the hashed password matches
+					if (hashedInputPassword.equals(passwordHash)) {
+						// Map values to UserDTO
+						user = new UserDTO();
+						user.setEmail(userEmail);
+						user.setDisplayName(displayName);
+						user.setPhoneNumber(phoneNumber);
+						user.setCreatedAt(createdAt);
+
+						// Add userDTO to session
+						HttpSession session = request.getSession();
+						session.setAttribute("userData", user);
+
+						// Respond with success message
+						Response.ResponseSuccess(response);
+						
+					} else {
+						// Invalid password
+						Response.ResponseError(response, "Invalid password");
+				
+					}
+				} else {
+					// User not found
+					Response.ResponseError(response, "User not found");
+			
+				}
+			} catch (SQLException e) {
+				Response.ResponseError(response, "Database Error - "+ e.getMessage());
+			}
+		} else {
+			// Missing user or password
+			Response.ResponseError(response, "Email and password are required");	
+		}
+
+		out.flush();
+		out.close();
+	}
+
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException 
+	{		
+		 // Invalidate the session
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
         }
-
-        out.flush();
-        out.close();
-    }
-
-
+        response.setStatus(HttpServletResponse.SC_OK);
+	}
+	
 	
 	private String hashPassword(String password, String salt) {
-	    try {
-	        // Combine password and salt
-	        String combined = password + salt;
+		try {
+			// Combine password and salt
+			String combined = password + salt;
 
-	        // Create a MessageDigest instance for SHA-256
-	        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			// Create a MessageDigest instance for SHA-256
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-	        // Hash the combined string
-	        byte[] hashBytes = digest.digest(combined.getBytes());
+			// Hash the combined string
+			byte[] hashBytes = digest.digest(combined.getBytes());
 
-	        // Convert byte array to hexadecimal string
-	        StringBuilder hexString = new StringBuilder();
-	        for (byte b : hashBytes) {
-	            String hex = Integer.toHexString(0xff & b);
-	            if (hex.length() == 1) {
-	                hexString.append('0'); // Add leading zero for single digit
-	            }
-	            hexString.append(hex);
-	        }
-	        
-	        return hexString.toString(); // Return the hashed password
-	    } catch (NoSuchAlgorithmException e) {
-	        throw new RuntimeException("Hashing algorithm not found", e);
-	    }
+			// Convert byte array to hexadecimal string
+			StringBuilder hexString = new StringBuilder();
+			for (byte b : hashBytes) {
+				String hex = Integer.toHexString(0xff & b);
+				if (hex.length() == 1) {
+					hexString.append('0'); // Add leading zero for single digit
+				}
+				hexString.append(hex);
+			}
+
+			return hexString.toString(); // Return the hashed password
+		} catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException("Hashing algorithm not found", e);
+		}
 	}
 }
