@@ -74,7 +74,7 @@
                 <div class="error" id="phoneNumberError"></div>
             </div>
             <button id="registerButton" type="submit" class="btn btn-primary">Register</button>
-            
+            <button id="backButton" type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
         	</form>
     </div>
     
