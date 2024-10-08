@@ -37,7 +37,7 @@ public class Register extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Set response content type to JSON
-		UserManager util = new UserManager();
+		UserManager userManager = new UserManager();
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
@@ -60,7 +60,7 @@ public class Register extends HttpServlet {
 				if (result) {
 					try {
 						// Call stored procedure to retrieve values
-						ResultSet rs = util.getUserByEmail(email);
+						ResultSet rs = userManager.getUserByEmail(email);
 						if (rs.next()) {
 							// Get data from result set
 							Integer userId = rs.getInt("UserID");

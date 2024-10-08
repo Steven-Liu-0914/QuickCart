@@ -14,30 +14,30 @@ public class UserManager {
 	Database db = new Database();
 
 	public boolean checkEmailExists(String email) {
-	    String sql = "SELECT COUNT(*) FROM User WHERE email = ?";
-	    ArrayList<Object> prepStmt = new ArrayList<>();
-	    prepStmt.add(email);
+		String sql = "SELECT COUNT(*) FROM User WHERE email = ?";
+		ArrayList<Object> prepStmt = new ArrayList<>();
+		prepStmt.add(email);
 
-	    ResultSet resultSet = null; // Declare ResultSet outside try block
-	    try {
-	        resultSet = db.getSQL(sql, prepStmt); // Get the ResultSet
+		ResultSet resultSet = null; // Declare ResultSet outside try block
+		try {
+			resultSet = db.getSQL(sql, prepStmt); // Get the ResultSet
 
-	        if (resultSet != null && resultSet.next()) {
-	            return resultSet.getInt(1) > 0; // Check if email exists
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        // Always close the ResultSet in the finally block
-	        if (resultSet != null) {
-	            try {
-	                resultSet.close();
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
-	    }
-	    return false;
+			if (resultSet != null && resultSet.next()) {
+				return resultSet.getInt(1) > 0; // Check if email exists
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			// Always close the ResultSet in the finally block
+			if (resultSet != null) {
+				try {
+					resultSet.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
 	}
 
 	public ResultSet getUserByEmail(String email) {

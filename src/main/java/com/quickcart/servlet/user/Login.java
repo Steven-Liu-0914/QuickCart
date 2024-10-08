@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
 
 		String userEmail = request.getParameter("email");
 		String password = request.getParameter("password");
-		UserManager util = new UserManager();
+		UserManager userManager = new UserManager();
 
 		// Use a PrintWriter to send the JSON response
 		PrintWriter out = response.getWriter();
@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
 			try {
 
 				// Call stored procedure to verify login
-				ResultSet rs = util.getUserByEmail(userEmail);
+				ResultSet rs = userManager.getUserByEmail(userEmail);
 
 				if (rs.next()) {
 					// Get data from result set
@@ -63,7 +63,7 @@ public class Login extends HttpServlet {
 					LocalDateTime createdAt = rs.getTimestamp("CreatedAt").toLocalDateTime();
 
 					// Hash the input password with the salt
-					String hashedInputPassword = util.hashPassword(password, passwordSalt); // Implement this method
+					String hashedInputPassword = userManager.hashPassword(password, passwordSalt); // Implement this method
 
 					// Check if the hashed password matches
 					if (hashedInputPassword.equals(passwordHash)) {
