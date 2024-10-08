@@ -75,10 +75,3 @@ public class Reset extends HttpServlet {
     	out.close();
 	}
 }
-        	
-        	
-        	
-		
-        
-
-
