@@ -60,8 +60,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Product 2</h5>
                         <p class="card-text">$39.99</p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
+							<a href="#" class="btn btn-primary">Add to Cart</a>
+						</div>
                      </a>
                 </div>
             </div>

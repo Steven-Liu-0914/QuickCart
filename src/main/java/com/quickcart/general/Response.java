@@ -34,7 +34,7 @@ public class Response {
 	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500 Internal Server Error
 	        String jsonResponse = objectMapper.writeValueAsString(new ResponseData(false, errorMessage, null));
 	        PrintWriter out = response.getWriter();
-	        out.write(jsonResponse);
+	        out.write(errorMessage);
 	        out.flush();
 	    }
 	

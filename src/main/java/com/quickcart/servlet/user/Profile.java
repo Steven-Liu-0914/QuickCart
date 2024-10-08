@@ -41,7 +41,6 @@ public class Profile extends HttpServlet {
             // Retrieve user data from session
             UserDTO user = (UserDTO) session.getAttribute("userData");
             
-
             // Check if user data is available
             if (user != null) {
             	Integer userId = user.getUserId();
