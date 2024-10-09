@@ -8,6 +8,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - QuickCart</title>
+    <style>
+    	.btn-primary {
+            background-color: #FFA500;
+            border-color: #FFA500;
+        }
+        .btn-primary:hover {
+            background-color: #e69500;
+            border-color: #e69500;
+        }
+        .card-title {
+            color: #FFA500;
+        }
+        /* Footer styling */
+        footer {
+            background-color: #FFA500;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 20px;
+         }    
+        .error { color: red;  
+        }
+        .container {
+            max-width: 400px;
+            margin-top: 100px;
+        }
+        .pointer {
+            color: #6c757d; /* Bootstrap primary color */
+            cursor: pointer; /* Change cursor to pointer */
+        }
+    </style>
 </head>
 
 <body>
@@ -21,9 +52,11 @@
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Phone Number:</strong> ${phoneNumber}</p>
                 <p><strong>Created At:</strong> ${createdAt}</p>
+                <a href="UpdateProfile" class="btn btn-primary">Edit Profile</a>
             </div>
         </div>
-    </div>
+        
+     </div>
     
 </body>
 </html>

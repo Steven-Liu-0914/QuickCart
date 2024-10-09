@@ -53,9 +53,9 @@ public class Register extends HttpServlet {
 
 		try {
 
-			exists = util.checkEmailExists(email);
+			exists = userManager.checkEmailExists(email);
 			if (exists != true) {
-				result = util.createUser(displayName, password, email, phoneNumber);
+				result = userManager.createUser(displayName, password, email, phoneNumber);
 				UserDTO user = null;
 				if (result) {
 					try {

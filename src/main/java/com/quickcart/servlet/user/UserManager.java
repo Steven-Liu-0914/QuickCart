@@ -91,6 +91,27 @@ public class UserManager {
 		}
 
 	}
+	
+	public boolean updateUserProfile(String email, String displayName, String phoneNumber) {
+		try {
+			ArrayList<Object> prepStmt = new ArrayList<>();
+			
+			
+
+			String sql = "UPDATE User SET DisplayName = ?, PhoneNumber = ? WHERE Email = ?";
+			prepStmt.add(displayName);
+			prepStmt.add(phoneNumber);
+			prepStmt.add(email);
+
+			// Use runSQL for the update statement
+			db.updateSQL(sql, prepStmt);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+	}
 
 	public String hashPassword(String password, String salt) {
 		try {
