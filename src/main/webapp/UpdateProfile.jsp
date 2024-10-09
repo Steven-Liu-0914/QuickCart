@@ -30,14 +30,7 @@
          }    
         .error { color: red;  
         }
-        .container {
-            max-width: 400px;
-            margin-top: 100px;
-        }
-        .pointer {
-            color: #6c757d; /* Bootstrap primary color */
-            cursor: pointer; /* Change cursor to pointer */
-        }
+        
     </style>
 </head>
 
@@ -58,6 +51,7 @@
         	<div class="error" id="phoneNumberError"></div> 
         </div>
         <button type="submit" class="btn btn-primary">Update Profile</button>
+        <button id="backButton" type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
     </form>
 </div>
 

@@ -28,16 +28,8 @@
             text-align: center;
             margin-top: 20px;
          }    
-        .error { color: red;  
-        }
-        .container {
-            max-width: 400px;
-            margin-top: 100px;
-        }
-        .pointer {
-            color: #6c757d; /* Bootstrap primary color */
-            cursor: pointer; /* Change cursor to pointer */
-        }
+           
+    
     </style>
 </head>
 
