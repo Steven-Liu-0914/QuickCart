@@ -63,12 +63,12 @@ public class Profile extends HttpServlet {
                 request.setAttribute("createdAt", formattedCreatedAt);
                 
                 // Forward to the JSP page
-                request.getRequestDispatcher("Profile.jsp").forward(request, response);
+                request.getRequestDispatcher("User/Profile.jsp").forward(request, response);
             } else {
-                response.sendRedirect("Login.jsp"); // Redirect to login if session is valid but no user data
+                response.sendRedirect("User/Login.jsp"); // Redirect to login if session is valid but no user data
             }
         } else {
-            response.sendRedirect("Login.jsp"); // Redirect to login if no session exists
+            response.sendRedirect("User/Login.jsp"); // Redirect to login if no session exists
         }
     }
     

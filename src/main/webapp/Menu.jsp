@@ -33,7 +33,7 @@
                     } else { 
                 %>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="Login.jsp"><b>Login</b></a>
+                        <a class="nav-link text-white" href="User/Login.jsp"><b>Login</b></a>
                     </li>
                 <% 
                     } 

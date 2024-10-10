@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="web-library/Reference.jsp" %>
+<%@ include file="../web-library/Reference.jsp"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Success: Update Profile</title>
+    <title>Success: Password Reset</title>
     <style>
         /* Custom theme color: Bright Orange (#FFA500) */
         .btn-primary {
@@ -34,9 +34,9 @@
     <div class="container mt-5">
         <div class="card text-center">
             <div class="card-body">
-                <h1 class="card-title">You have successfully update your profile!</h1>
+                <h1 class="card-title">You have successfully update your password!</h1>
                 <p class="card-text">Please re-login to verify</p>
-                <a href="Home.jsp" class="btn btn-primary">Log In Again</a>
+                <a href="../Home.jsp" class="btn btn-primary">Log In Again</a>
             </div>
         </div>
     </div>

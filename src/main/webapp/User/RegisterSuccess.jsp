@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="web-library/Reference.jsp" %>
+<%@ include file="../web-library/Reference.jsp"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout</title>
+    <title>Success: Register</title>
     <style>
         /* Custom theme color: Bright Orange (#FFA500) */
         .btn-primary {
@@ -34,9 +34,9 @@
     <div class="container mt-5">
         <div class="card text-center">
             <div class="card-body">
-                <h1 class="card-title">You have successfully logged out!</h1>
-                <p class="card-text">Thank you for shopping at QuickCart! We hope to see you again soon!</p>
-                <a href="Home.jsp" class="btn btn-primary">Log In Again</a>
+                <h1 class="card-title">Registration Successful!</h1>
+                <p class="card-text">Click to start shopping!</p>
+                <a href="../Home.jsp" class="btn btn-primary">Start Shopping</a>
             </div>
         </div>
     </div>

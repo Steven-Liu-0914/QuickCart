@@ -30,6 +30,6 @@ public class Logout extends HttpServlet {
         }
 
         // Redirect to the login page or a logout confirmation page
-        response.sendRedirect("Logout.jsp");
+        response.sendRedirect("User/Logout.jsp");
     }
 }

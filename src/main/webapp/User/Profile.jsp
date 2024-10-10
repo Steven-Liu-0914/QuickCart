@@ -9,28 +9,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Profile - QuickCart</title>
+    <style>
+    	.btn-primary {
+            background-color: #FFA500;
+            border-color: #FFA500;
+        }
+        .btn-primary:hover {
+            background-color: #e69500;
+            border-color: #e69500;
+        }
+        .card-title {
+            color: #FFA500;
+        }
+        /* Footer styling */
+        footer {
+            background-color: #FFA500;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            margin-top: 20px;
+         }    
+           
+    
+    </style>
 </head>
+
 <body>
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-4 text-center">
-            <img src="https://via.placeholder.com/150" alt="Profile Picture" class="img-fluid rounded-circle">
-            <h2 class="mt-3">John Doe</h2>
-            <p class="text-muted">User ID: 12345</p>
-            <button class="btn btn-primary">Edit Profile</button>
+    <div class="container mt-5">
+        <h1 class="mb-4">User Profile</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Profile Information</h5>
+                <p><strong>User ID:</strong> ${userId}</p>
+                <p><strong>Display Name:</strong> ${displayName}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone Number:</strong> ${phoneNumber}</p>
+                <p><strong>Created At:</strong> ${createdAt}</p>
+                <a href="UpdateProfile" class="btn btn-primary">Edit Profile</a>
+            </div>
         </div>
-        <div class="col-md-8">
-            <h3>User Information</h3>
-            <ul class="list-group">
-                <li class="list-group-item"><strong>Email:</strong> john.doe@example.com</li>
-                <li class="list-group-item"><strong>Phone Number:</strong> +1234567890</li>
-                <li class="list-group-item"><strong>Joined At:</strong> January 1, 2022</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
+        
+     </div>
+    
 </body>
 </html>

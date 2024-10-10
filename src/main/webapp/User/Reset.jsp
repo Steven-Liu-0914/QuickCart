@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="web-library/Reference.jsp" %>
+<%@ include file="../web-library/Reference.jsp"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +77,7 @@
     	<span class="pointer" onclick="window.location.href='Login.jsp';">Back to Login</span>
     </div>
 	
-	<!-- Custom script for AJAX register -->  
+	<!-- Custom script for AJAX reset -->  
       
     <script>
     
@@ -106,7 +106,7 @@
                 // If the form is valid, prevent default submission for AJAX
                 event.preventDefault();
             
-            //$("#registerButton").on("click", function() {
+            
             	var email = $("#email").val();
             	var newPassword = $("#newPassword").val();
             	var confirmPassword = $("#confirmPassword").val();

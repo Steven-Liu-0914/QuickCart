@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="web-library/Reference.jsp" %>
+<%@ include file="../web-library/Reference.jsp"%>
 
 
 <!DOCTYPE html>
@@ -92,7 +92,7 @@
                     { email: email, newDisplayName: newDisplayName, newPhoneNumber: newPhoneNumber },
                     function(data) {
                         // Handle success
-                        window.location.href = "UpdateProfileSucess.jsp"; // Example redirect
+                        window.location.href = "User/UpdateProfileSuccess.jsp"; // Example redirect
                     },
                     function(jqXHR) {
                         // Handle error

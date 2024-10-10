@@ -39,12 +39,12 @@ public class UpdateProfile extends HttpServlet {
         UserDTO user = (UserDTO) session.getAttribute("userData"); // Get user from session
         
         if (user == null) {
-        	response.sendRedirect("login.jsp"); // Redirect if no user is logged in
+        	response.sendRedirect("User/Login.jsp"); // Redirect if no user is logged in
             return;
         }
         
         request.setAttribute("userData", user); // Set user as a request attribute
-        request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("User/UpdateProfile.jsp").forward(request, response);
     }// Forward to JSP
     
 
