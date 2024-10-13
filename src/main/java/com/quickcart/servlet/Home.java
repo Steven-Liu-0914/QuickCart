@@ -48,7 +48,7 @@ public class Home extends HttpServlet {
 				Product product = new Product(productID, productName, description, price, imageURI, categoryID);
 				productList.add(product);        	
 			}
-			System.out.println(productList.size());
+			System.out.println("Loaded "+ productList.size() +" products from the database.");
 	        request.getSession().setAttribute("dataList", productList);
 	        request.getSession().setAttribute("redirected",true);
 	        request.getRequestDispatcher("Home.jsp").forward(request, response);

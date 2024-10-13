@@ -36,11 +36,19 @@
 
 .card-img-top {
 	border-radius: 5px;
-	height:400px;
+	height: 400px;
 }
 
 .header {
 	margin-top: 100px;
+}
+
+#addToCartButton {
+	width: 25%;
+	height: 15%;
+	margin-bottom: 20px;
+	margin-left: 4%;
+	white-space: nowrap;
 }
 /* Footer styling */
 footer {
@@ -52,7 +60,34 @@ footer {
 }
 </style>
 
+<script>
+    function AddProductToCart(_productId) {
+       
+		
+        AjaxCall(
+            "http://localhost:8080/QuickCart/Cart",
+            "POST",
+            { productId:_productId},
+            function(data) {
+                // Handle success
+               const loginModal = new bootstrap.Modal(document.getElementById('addedToCartModal'));
+               loginModal.show();
+               //alert('Add Product to Cart Successfully!'+" your id is "+_productId);
+            },
+            function(jqXHR) {
+                // Handle error
+                if(jqXHR.responseText == "User not logged in"){
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                }else{
+                    alert(jqXHR.responseText); // Show error message
 
+                }
+            }
+        );
+    };
+   
+    </script>
 </head>
 
 <body>
@@ -67,33 +102,38 @@ footer {
 			return; // Prevent further processing
 		}
 		%>
+		<div class="navbar-nav mx-auto ">
+			<form class="d-flex">
+				<input class="form-control" type="search" placeholder="Search"
+					aria-label="Search" style="width: 600px;">
+				<button class="btn me-3" type="submit">
+					<i class="bi bi-search"></i>
+				</button>
+			</form>
+		</div>
+
 		<div class="row">
 			<%
 			List<Product> productList = (List<Product>) session.getAttribute("dataList");
 
 			for (Product p : productList) {
 				//p.setImageURI(imgPath);
-				int productId = p.getProductID();
 			%>
 			<div class="col-md-4 mb-4">
 				<div class="card">
-					<a href="product-details.jsp?id=<%=productId%>"
+					<a href="product-details.jsp?id=<%=p.getProductID()%>"
 						class="text-decoration-none text-dark"> <img
 						src="<%=p.getImageURI()%>" class="card-img-top" alt="Product">
 						<div class="card-body">
 
 							<h5 class="card-title"><%=p.getProductName()%></h5>
-							<p class="card-text"><%=p.getPrice()%></p>
-							<form method="post" action="Cart" style="display: inline">
-								<input name="productId" value="<%=p.getProductID()%>"
-									type="hidden">
-								<button class="btn btn-primary" type="submit">Add to
-									Cart</button>
-
-							</form>
-
+							<p class="card-text">
+								$<%=p.getPrice()%></p>
 						</div>
 					</a>
+					<button class="btn btn-primary" type="button" id="addToCartButton"
+						onclick="AddProductToCart(<%=p.getProductID()%>)">Add to
+						Cart</button>
 				</div>
 
 			</div>
@@ -103,6 +143,39 @@ footer {
 
 		</div>
 
+		<div class="modal fade" id="loginModal" tabindex="-1"
+			aria-labelledby="loginModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="loginModalLabel">You are not
+							logged in!</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">Log in to add items to your cart.</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Close</button>
+						<a href="User/Login.jsp" class="btn btn-primary">Login</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="addedToCartModal" tabindex="-1"
+			aria-labelledby="addedToCartModal" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="addedToCartModal">Added To Cart!</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 

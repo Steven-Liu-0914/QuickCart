@@ -35,6 +35,8 @@ footer {
 </head>
 <body>
 	<div class="container mt-5">
+	
+			<!-- %response.sendRedirect("DisplayCart");%-->
 		<h2 class="text-center mb-4">List of items in cart</h2>
 
 		<div class="row">
@@ -43,9 +45,7 @@ footer {
 				<h4></h4>
 				<div class="card">
 					<a href="product-details.jsp?id=3"
-						class="text-decoration-none text-dark"> <img
-						src="https://via.placeholder.com/100" class="card-img-top"
-						alt="Product 3">
+						class="text-decoration-none text-dark"> 
 						<div class="card-body">
 							<h5 class="card-title">Product 1</h5>
 													

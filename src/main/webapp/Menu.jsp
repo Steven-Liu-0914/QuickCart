@@ -19,16 +19,7 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 
-			<div class="navbar-nav mx-auto ">
-				<form class="d-flex">
-					<input class="form-control" type="search" placeholder="Search"
-						aria-label="Search" style="width: 600px;">
-					<button class="btn me-3" type="submit">
-						<i class="bi bi-search"></i>
-					</button>
-				</form>
-			</div>
-
+			
 			<ul class="navbar-nav ms-auto">
 				<%
 				// Check if userData exists in the session
