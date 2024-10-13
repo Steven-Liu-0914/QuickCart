@@ -65,7 +65,7 @@ footer {
        
 		
         AjaxCall(
-            "http://localhost:8080/QuickCart/Cart",
+            "http://localhost:8080/QuickCart/Cart/AddToCart",
             "POST",
             { productId:_productId},
             function(data) {

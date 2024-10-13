@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.quickcart.data.models.*,java.util.*"%>
 
 <%@ include file="../web-library/Reference.jsp"%>
 <%@ include file="../Menu.jsp"%>
@@ -23,6 +24,12 @@
 .card-title {
 	color: #FFA500;
 }
+#checkout{
+	width: 40%;
+	height: 15%;
+	margin-bottom: 20px;
+	white-space: nowrap;
+}
 /* Footer styling */
 footer {
 	background-color: #FFA500;
@@ -32,55 +39,80 @@ footer {
 	margin-top: 20px;
 }
 </style>
+
+<script>
+
+function calculateCost(price){
+	const checkbox = event.target;
+	const cost =  document.getElementById("cost");
+	
+	const currentPrice = parseFloat(cost.textContent);
+	const productPrice = parseFloat(price);
+	var totalprice = 0.00;
+
+	if(checkbox.checked){
+		totalprice = currentPrice + productPrice;
+	}
+	else{
+		totalprice = currentPrice - productPrice;
+	}
+	console.log(totalprice);
+
+	document.getElementById("cost").textContent = totalprice.toFixed(2);
+	
+	
+}
+	
+</script>
 </head>
 <body>
 	<div class="container mt-5">
-	
-			<!-- %response.sendRedirect("DisplayCart");%-->
+
+		<%
+		if (session.getAttribute("cart-redirected") == null) {
+			// Redirect to the DisplayCart to set the cart list
+			response.sendRedirect("../Cart/DisplayCart");
+			return; // Prevent further processing
+		}
+		%>
+		<!-- %response.sendRedirect("DisplayCart");%-->
 		<h2 class="text-center mb-4">List of items in cart</h2>
 
 		<div class="row">
-			<!-- Product Card 1 -->
-			<div class="col-md-6">
-				<h4></h4>
-				<div class="card">
-					<a href="product-details.jsp?id=3"
-						class="text-decoration-none text-dark"> 
-						<div class="card-body">
-							<h5 class="card-title">Product 1</h5>
-													
-							<p class="card-text">$39.99</p>
-							<input type="checkbox">
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>
-		
-		<div class="checkout">
-			<!-- Product Card 1 -->
-			<div class="col-md-3 ">
-				<h4></h4>
-				<div class="card">
-					<a href="product-details.jsp?id=3"
-						class="text-decoration-none text-dark"> <img
-						src="https://via.placeholder.com/100" class="card-img-top"
-						alt="Product 3">
-						<div class="card-body">
-							<h5 class="card-title">List Of Items Selected</h5>
-													
-							<p class="card-text">$39.99</p>
-							<input type="checkbox">
-						</div>
-					</a>
-				</div>
-			</div>
-		</div>		
-		<div>
-		<div class="col-md-6">
-		
-		</div>
-	</div>
+			<div class="col-md-9 mb-4">
+				<ol class="list-group list-group-numbered ">
+					<%
+					List<Product> cartList = (List<Product>) session.getAttribute("cartList");
 
+					for (Product p : cartList) {
+					%>
+					<li
+						class="list-group-item d-flex justify-content-between align-items-start">
+						<h6><%=p.getProductName()%></h6> <span> $<%=p.getPrice()%></span>
+
+						<input class="form-check-input me-1 checkbox" type="checkbox"
+						value="" aria-label="..."
+						onclick="calculateCost(<%=p.getPrice()%>)">
+					</li>
+
+					<%
+					}
+					%>
+				</ol>
+			</div>
+			<div class="col-md-3 mb-4">
+				<div class="card">
+					<h3 class="card-title">Summary</h3>
+					<h5 class="card-text">
+						Total Cost: $<span id="cost">0.00</span>
+					</h5>
+									<button class="btn btn-primary" type="button" id="checkout"
+						>Checkout</button>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
 </body>
 </html>

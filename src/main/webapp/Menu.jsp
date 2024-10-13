@@ -37,7 +37,8 @@
 				%>
 
 				<li class="nav-item"><a class="nav-link text-white"
-					href="Shopping/ShoppingCart.jsp"><b>Cart</b></a></li>
+					href="Shopping/ShoppingCart.jsp"><b>Cart
+					</b></a></li>
 				<%
 				}
 				%>

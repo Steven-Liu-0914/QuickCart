@@ -10,25 +10,23 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 
-import com.quickcart.data.models.Product;
 import com.quickcart.data.models.UserDTO;
 import com.quickcart.general.Database;
 import com.quickcart.general.Response;
 
 /**
- * Servlet implementation class Cart
+ * Servlet implementation class AddToCart
  */
-@WebServlet("/Cart")
-public class Cart extends HttpServlet {
+@WebServlet("/Cart/AddToCart")
+public class AddToCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Database db = new Database();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Cart() {
+	public AddToCart() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -127,13 +125,11 @@ public class Cart extends HttpServlet {
 				System.out.println("User not in cart");
 				if (!countRs.next()) {
 					cartId = 1;
-					// System.out.println("Cart is empty");
 
 				} else {
 					while (countRs.next()) {
 						cartId = countRs.getInt(1);
 						cartId += 1;
-						// System.out.println("Cart is not empty");
 
 					}
 
@@ -143,7 +139,6 @@ public class Cart extends HttpServlet {
 			} else {
 				while (rs.next()) {
 					cartId = rs.getInt("CartId");
-					// System.out.println(cartId);
 				}
 			}
 
@@ -163,7 +158,6 @@ public class Cart extends HttpServlet {
 	}
 
 	public int returnCartItemId(int cartId) {
-		// String sql = "SELECT * FROM CartItem WHERE CartID = ?";
 		String maxCountSql = "SELECT Max(CartItemID) FROM CartItem;";
 
 		ArrayList<Object> prepStmt = new ArrayList<>();
