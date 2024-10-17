@@ -87,7 +87,7 @@ function calculateCost(price){
 					for (Product p : cartList) {
 					%>
 					<li
-						class="list-group-item d-flex justify-content-between align-items-start">
+						class="list-group-item  d-flex justify-content-between align-items-start border p-2">
 						<h6><%=p.getProductName()%></h6> <span> $<%=p.getPrice()%></span>
 
 						<input class="form-check-input me-1 checkbox" type="checkbox"

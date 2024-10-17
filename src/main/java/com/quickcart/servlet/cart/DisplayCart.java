@@ -69,7 +69,8 @@ public class DisplayCart extends HttpServlet {
 				cartList.add(product);   
 			}
 			
-			
+			System.out.println(cartList.size());
+
 	        request.getSession().setAttribute("cartList", cartList);
 	        request.getSession().setAttribute("cart-redirected",true);
 	        request.getRequestDispatcher("../Shopping/ShoppingCart.jsp").forward(request, response);

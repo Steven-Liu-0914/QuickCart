@@ -101,6 +101,7 @@ footer {
 			response.sendRedirect("Home");
 			return; // Prevent further processing
 		}
+		session.setAttribute("cart-redirected",null);
 		%>
 		<div class="navbar-nav mx-auto ">
 			<form class="d-flex">
