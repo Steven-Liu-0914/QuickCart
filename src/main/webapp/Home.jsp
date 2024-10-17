@@ -115,10 +115,10 @@ footer {
 
 		<div class="row">
 			<%
-			List<Product> productList = (List<Product>) session.getAttribute("dataList");
+			List<ProductDTO> productList = (List<ProductDTO>) session.getAttribute("dataList");
 
-			for (Product p : productList) {
-				//p.setImageURI(imgPath);
+				for (ProductDTO p : productList) {
+					//p.setImageURI(imgPath);
 			%>
 			<div class="col-md-4 mb-4">
 				<div class="card">

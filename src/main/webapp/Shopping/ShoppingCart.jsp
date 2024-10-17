@@ -82,9 +82,9 @@ function calculateCost(price){
 			<div class="col-md-9 mb-4">
 				<ol class="list-group list-group-numbered ">
 					<%
-					List<Product> cartList = (List<Product>) session.getAttribute("cartList");
+					List<ProductDTO> cartList = (List<ProductDTO>) session.getAttribute("cartList");
 
-					for (Product p : cartList) {
+								for (ProductDTO p : cartList) {
 					%>
 					<li
 						class="list-group-item  d-flex justify-content-between align-items-start border p-2">

@@ -6,12 +6,15 @@ import java.io.PrintWriter;
 import jakarta.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quickcart.data.models.ResponseData;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class Response {
 	
 	 private static final ObjectMapper objectMapper = new ObjectMapper();
 
+	
 	    public static void ResponseSuccess(HttpServletResponse response) throws IOException {
+	    	objectMapper.registerModule(new JavaTimeModule()); // Register the JavaTimeModule
 	        response.setContentType("application/json");
 	        response.setStatus(HttpServletResponse.SC_OK); // 200 OK
 	        String jsonResponse = objectMapper.writeValueAsString(new ResponseData(true, "Success", null));
@@ -20,7 +23,8 @@ public class Response {
 	        out.flush();
 	    }
 
-	    public static void ResponseSuccess(HttpServletResponse response, String data) throws IOException {
+	    public static void ResponseSuccess(HttpServletResponse response, Object data) throws IOException {
+	    	objectMapper.registerModule(new JavaTimeModule()); // Register the JavaTimeModule
 	        response.setContentType("application/json");
 	        response.setStatus(HttpServletResponse.SC_OK); // 200 OK
 	        String jsonResponse = objectMapper.writeValueAsString(new ResponseData(true, "Success", data));
@@ -30,6 +34,7 @@ public class Response {
 	    }
 
 	    public static void ResponseError(HttpServletResponse response, String errorMessage) throws IOException {
+	    	objectMapper.registerModule(new JavaTimeModule()); // Register the JavaTimeModule
 	        response.setContentType("application/json");
 	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500 Internal Server Error
 	        String jsonResponse = objectMapper.writeValueAsString(new ResponseData(false, errorMessage, null));
