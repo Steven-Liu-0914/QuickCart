@@ -17,7 +17,7 @@ import java.util.Map;
 
 import org.apache.tomcat.jakartaee.commons.lang3.tuple.Pair;
 
-import com.quickcart.data.models.Product;
+import com.quickcart.data.models.ProductDTO;
 import com.quickcart.data.models.UserDTO;
 import com.quickcart.general.Database;
 
@@ -46,7 +46,7 @@ public class DisplayCart extends HttpServlet {
 		UserDTO user = (UserDTO) session.getAttribute("userData");
 		System.out.println("Reached display servelet");
 		Database db = new Database();
-		List<Product> cartList = new ArrayList<>();
+		List<ProductDTO> cartList = new ArrayList<>();
 		
 		String sql = "select p.productID,p.ProductName,p.Description,p.Price,p.ImageURL,p.CategoryID from CartItem i inner join Cart c on i.CartID = c.CartID\n"
 				+ "inner join Product p on p.ProductID = i.ProductID where c.userID = ?;";
@@ -65,7 +65,7 @@ public class DisplayCart extends HttpServlet {
 				int categoryID = rs.getInt("CategoryID");
 
 				// Instantiate a Product object
-				Product product = new Product(productID, productName, description, price, imageURI, categoryID);
+				ProductDTO product = new ProductDTO(productID, productName, description, price, imageURI, categoryID);
 				cartList.add(product);   
 			}
 			

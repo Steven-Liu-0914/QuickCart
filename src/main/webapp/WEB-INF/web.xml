@@ -70,4 +70,14 @@
     <servlet-name>UpdateProfile</servlet-name>
     <url-pattern>/UpdateProfile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProductDetails</display-name>
+    <servlet-name>ProductDetails</servlet-name>
+    <servlet-class>com.quickcart.servlet.product.ProductDetails</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductDetails</servlet-name>
+    <url-pattern>/ProductDetails</url-pattern>
+  </servlet-mapping>
 </web-app>

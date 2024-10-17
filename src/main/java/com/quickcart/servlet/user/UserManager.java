@@ -54,7 +54,7 @@ public class UserManager {
 			String salt = getSalt();
 			String passwordHashedSalt = hashPassword(password, salt);
 
-			String sql = "INSERT INTO User (DisplayName, PasswordHashedSalt, Salt, Email, PhoneNumber) VALUES (?,?,?,?,?)";
+			String sql = "INSERT INTO User (DisplayName, Password_Hash, Password_Salt, Email, PhoneNumber) VALUES (?,?,?,?,?)";
 
 			prepStmt.add(displayName);
 			prepStmt.add(passwordHashedSalt);
@@ -77,7 +77,7 @@ public class UserManager {
 			String salt = getSalt();
 			String passwordHashedSalt = hashPassword(newPassword, salt);
 
-			String sql = "UPDATE User SET PasswordHashedSalt = ?, Salt = ? WHERE Email = ?";
+			String sql = "UPDATE User SET Password_Hash = ?, Password_Salt = ? WHERE Email = ?";
 			prepStmt.add(passwordHashedSalt);
 			prepStmt.add(salt);
 			prepStmt.add(email);
@@ -96,8 +96,7 @@ public class UserManager {
 		try {
 			ArrayList<Object> prepStmt = new ArrayList<>();
 			
-			
-
+		
 			String sql = "UPDATE User SET DisplayName = ?, PhoneNumber = ? WHERE Email = ?";
 			prepStmt.add(displayName);
 			prepStmt.add(phoneNumber);

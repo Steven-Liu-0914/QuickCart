@@ -1,6 +1,8 @@
 package com.quickcart.data.models;
 
-public class Product {
+import java.util.List;
+
+public class ProductDTO {
 		
 	private int ProductID;
 	private String ProductName;
@@ -8,10 +10,12 @@ public class Product {
 	private Double Price;
 	private String imageURI;
 	private int CategoryID;
+	private String CategoryDescription;
+	private List<ReviewDTO> Reviews;
 	
-	public Product() {}
+	public ProductDTO() {}
 	
-	public Product(int productID, String productName, String description, Double price, String imageURI,
+	public ProductDTO(int productID, String productName, String description, Double price, String imageURI,
 			int categoryID) {
 		this.ProductID = productID;
 		this.ProductName = productName;
@@ -69,5 +73,19 @@ public class Product {
 		CategoryID = categoryID;
 	}
 
+	public String getCategoryDescription() {
+		return CategoryDescription;
+	}
+
+	public void setCategoryDescription(String categoryDescription) {
+		CategoryDescription = categoryDescription;
+	}
 	
+	public List<ReviewDTO> getProductReviews() {
+		return Reviews;
+	}
+
+	public void setProductReviews(List<ReviewDTO> reviews) {
+		Reviews = reviews;
+	}
 }

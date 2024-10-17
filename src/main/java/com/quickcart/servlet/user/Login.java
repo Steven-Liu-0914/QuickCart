@@ -56,8 +56,8 @@ public class Login extends HttpServlet {
 					// Get data from result set
 					Integer userId = rs.getInt("UserID");
 					String displayName = rs.getString("DisplayName");
-					String passwordHash = rs.getString("PasswordHashedSalt");
-					String passwordSalt = rs.getString("Salt");
+					String passwordHash = rs.getString("Password_Hash");
+					String passwordSalt = rs.getString("Password_Salt");
 					String email = rs.getString("Email");
 					String phoneNumber = rs.getString("PhoneNumber");
 					LocalDateTime createdAt = rs.getTimestamp("CreatedAt").toLocalDateTime();

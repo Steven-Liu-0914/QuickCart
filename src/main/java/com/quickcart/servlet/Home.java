@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.quickcart.data.models.Product;
+import com.quickcart.data.models.ProductDTO;
 import com.quickcart.general.Database;
 
 /**
@@ -28,7 +28,7 @@ public class Home extends HttpServlet {
 		// TODO Auto-generated method stub
 		System.out.println("Reached home servelet");
 		Database db = new Database();
-		List<Product> productList = new ArrayList<>();
+		List<ProductDTO> productList = new ArrayList<>();
 		
 		String sql = "Select * From Product;";
 		ArrayList<Object> prepStmt = new ArrayList<>();
@@ -45,7 +45,7 @@ public class Home extends HttpServlet {
 				int categoryID = rs.getInt("CategoryID");
 
 				// Instantiate a Product object
-				Product product = new Product(productID, productName, description, price, imageURI, categoryID);
+				ProductDTO product = new ProductDTO(productID, productName, description, price, imageURI, categoryID);
 				productList.add(product);        	
 			}
 			System.out.println("Loaded "+ productList.size() +" products from the database.");
