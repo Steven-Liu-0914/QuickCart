@@ -38,7 +38,7 @@
     </style>
 </head>
 <body>
-    <div class="container cart-container">
+    <div class="container cart-container" style="margin-top:5rem !important">
         <h2 class="text-center">Shopping Cart</h2>
         <table class="cart-table table table-bordered">
             <thead>
