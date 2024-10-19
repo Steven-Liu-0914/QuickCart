@@ -43,7 +43,7 @@ public class UserManager {
 	public ResultSet getUserByEmail(String email) {
 		ArrayList<Object> vals = new ArrayList<>();
 		vals.add(email);
-		ResultSet rs = db.runSP("{CALL getUserByEmail(?)}", vals);
+		ResultSet rs = db.runSP("{CALL sp_user_get_by_email(?)}", vals);
 		return rs;
 
 	}

@@ -1,186 +1,160 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ page import="com.quickcart.data.models.*,java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="web-library/Reference.jsp"%>
 <%@ include file="Menu.jsp"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuickCart - Home</title>
-<style>
-/* Custom theme color: Bright Orange (#FFA500) */
-.btn-primary {
-	background-color: #FFA500;
-	border-color: #FFA500;
-}
-
-.btn-primary:hover {
-	background-color: #e69500;
-	border-color: #e69500;
-}
-
-.card-title {
-	color: #FFA500;
-}
-
-.card-text {
-	margin-top: 5px;
-	margin-bottom: 10px;
-}
-
-.card:hover {
-	background-color: #FFF7D1;
-}
-
-.card-img-top {
-	border-radius: 5px;
-	height: 400px;
-}
-
-.header {
-	margin-top: 100px;
-}
-
-#addToCartButton {
-	width: 25%;
-	height: 15%;
-	margin-bottom: 20px;
-	margin-left: 4%;
-	white-space: nowrap;
-}
-/* Footer styling */
-footer {
-	background-color: #FFA500;
-	color: white;
-	padding: 10px 0;
-	text-align: center;
-	margin-top: 20px;
-}
-</style>
-
 <script>
-    function AddProductToCart(_productId) {
-       
-		
+    // Function to dynamically get the base URL
+    function getBaseURL() {
+        const url = window.location.origin;
+        const path = window.location.pathname.split('/');
+        return url + '/' + path[1] + '/';
+    }
+
+    // Add product to cart function using the base URL
+  function AddProductToCart(_productId) {
+    // Check if the "userData" session attribute exists
+    const userData = '<%= session.getAttribute("userData") != null ? "exists" : "null" %>';
+
+    if (userData === "null") {
+        // User not found, show an alert message
+    	 const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+         loginModal.show();
+    } else {
+        // Proceed with calling the API to add product to the cart
         AjaxCall(
-            "http://localhost:8080/QuickCart/Cart/AddToCart",
+            getBaseURL() + "Shopping/Cart",
             "POST",
-            { productId:_productId},
+            { productId: _productId },
             function(data) {
-                // Handle success
-               const loginModal = new bootstrap.Modal(document.getElementById('addedToCartModal'));
-               loginModal.show();
-               //alert('Add Product to Cart Successfully!'+" your id is "+_productId);
+            	 alert("Add product to cart successfully!");
             },
             function(jqXHR) {
-                // Handle error
-                if(jqXHR.responseText == "User not logged in"){
-                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
-                    loginModal.show();
-                }else{
-                    alert(jqXHR.responseText); // Show error message
-
-                }
+                // Handle error callback
+            
+                    alert(jqXHR.responseText);
+                
             }
         );
+    }
+}
+
+    // AJAX call to get product listing
+    function fetchProductListing() {
+        AjaxCall(
+            getBaseURL() + "Product/Listing",
+            "GET",
+            null,
+            function(response) {
+                const productList = response.data;  // Assuming the API returns data in response.data
+                renderProductList(productList);
+            },
+            function(jqXHR) {
+                alert("Failed to load products: " + jqXHR.responseText);
+            }
+        );
+    }
+
+    // Render product list dynamically using string concatenation
+    function renderProductList(products) {
+        const productContainer = document.getElementById('productListing');
+        productContainer.innerHTML = ''; // Clear any previous content
+
+        products.forEach(function(product) {
+            const productCard = 
+                '<div class="col-md-4 mb-4 product-item" data-name="' + product.productName + '" data-category="' + product.categoryDescription + '">' +
+                    '<div class="card">' +
+                        '<a href="' + getBaseURL() + 'Product/ProductDetails.jsp?id=' + product.productID + '" class="text-decoration-none text-dark">' +
+                            '<img src="' + product.imageURI + '" class="card-img-top" alt="Product">' +
+                            '<div class="card-body">' +
+                                '<h5 class="card-title">' + product.productName + '</h5>' +
+                                '<p class="card-text">$' + product.price + '</p>' +
+                            '</div>' +
+                        '</a>' +
+                        '<button class="btn btn-primary" type="button" id="addToCartButton" onclick="AddProductToCart(' + product.productID + ')">Add to Cart</button>' +
+                    '</div>' +
+                '</div>';
+            
+            productContainer.innerHTML += productCard;
+        });
+    }
+
+    // Fetch the product listing when the page loads
+    window.onload = function() {
+        fetchProductListing();
     };
-   
-    </script>
+
+    // Filter products based on search input and selected category
+    function filterProducts() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+        const selectedCategory = document.getElementById('categorySelect').value;
+
+        // Loop through all products and hide those that don't match the search query or category
+        document.querySelectorAll('.product-item').forEach(function (product) {
+            const productName = product.getAttribute('data-name').toLowerCase();
+            const productCategory = product.getAttribute('data-category').toLowerCase();
+
+            // Check if the product matches the search query and selected category
+            if ((selectedCategory === 'all' || selectedCategory === productCategory) &&
+                productName.includes(searchQuery)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+</script>
 </head>
 
 <body>
-	<!-- Include the menu -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/web-library/Home.css"> <!-- Adding the Home.css file -->
+
 	<div class="container mt-5">
-		<h2 class="header text-center">Our Featured Products</h2>
+		<h2 class="header text-center" style="margin-top:80px">Our Fashion Products</h2>
 
-		<%
-		if (session.getAttribute("redirected") == null) {
-			// Redirect to the ProductServlet to set the product list
-			response.sendRedirect("Home");
-			return; // Prevent further processing
-		}
-		session.setAttribute("cart-redirected",null);
-		%>
-		<div class="navbar-nav mx-auto ">
-			<form class="d-flex">
-				<input class="form-control" type="search" placeholder="Search"
-					aria-label="Search" style="width: 600px;">
-				<button class="btn me-3" type="submit">
-					<i class="bi bi-search"></i>
-				</button>
-			</form>
-		</div>
+		<!-- Search Bar -->
+		<div class="navbar-nav mx-auto search-bar">
+			<div class="input-group">
+				<select id="categorySelect" class="form-select category-select" style="max-width: 200px;" onchange="filterProducts()">
+					<option value="all">All Categories</option>
+					<option value="electronics">Electronics</option>
+					<option value="clothing">Clothing</option>
+					<option value="books">Books</option>
+					<!-- Add more categories as needed -->
+				</select>
 
-		<div class="row">
-			<%
-			List<ProductDTO> productList = (List<ProductDTO>) session.getAttribute("dataList");
-
-				for (ProductDTO p : productList) {
-					//p.setImageURI(imgPath);
-			%>
-			<div class="col-md-4 mb-4">
-				<div class="card">
-					<a href="product-details.jsp?id=<%=p.getProductID()%>"
-						class="text-decoration-none text-dark"> <img
-						src="<%=p.getImageURI()%>" class="card-img-top" alt="Product">
-						<div class="card-body">
-
-							<h5 class="card-title"><%=p.getProductName()%></h5>
-							<p class="card-text">
-								$<%=p.getPrice()%></p>
-						</div>
-					</a>
-					<button class="btn btn-primary" type="button" id="addToCartButton"
-						onclick="AddProductToCart(<%=p.getProductID()%>)">Add to
-						Cart</button>
-				</div>
-
+				<!-- Search Input -->
+				<input class="form-control" id="searchInput" type="text" placeholder="Search for products..." oninput="filterProducts()">
 			</div>
-			<%
-			}
-			%>
-
 		</div>
 
-		<div class="modal fade" id="loginModal" tabindex="-1"
-			aria-labelledby="loginModalLabel" aria-hidden="true">
+		<!-- Product Listing -->
+		<div class="row" id="productListing">
+			<!-- Products will be dynamically injected here by JavaScript -->
+		</div>
+
+		<!-- Modals for login and cart -->
+		<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="loginModalLabel">You are not
-							logged in!</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+						<h5 class="modal-title" id="loginModalLabel">You are not logged in!</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">Log in to add items to your cart.</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">Close</button>
-						<a href="User/Login.jsp" class="btn btn-primary">Login</a>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<a href="<%=request.getContextPath()%>/User/Login.jsp" class="btn btn-primary">Login</a>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="modal fade" id="addedToCartModal" tabindex="-1"
-			aria-labelledby="addedToCartModal" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="addedToCartModal">Added To Cart!</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
-					</div>
-					
-				</div>
-			</div>
-		</div>
+		
 	</div>
 </body>
-
-
-
-
 </html>

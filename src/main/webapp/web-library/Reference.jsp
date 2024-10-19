@@ -10,7 +10,7 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="http://localhost:8080/QuickCart/web-library/General.js"></script>
+<script src="<%=request.getContextPath()%>/web-library/General.js"></script>
 
 
 <div id="loading"
@@ -18,3 +18,5 @@
 	<h2
 		style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">Loading...</h2>
 </div>
+
+

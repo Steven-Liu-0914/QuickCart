@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - QuickCart</title>
     <style>
-    	.btn-primary {
+        .btn-primary {
             background-color: #FFA500;
             border-color: #FFA500;
         }
@@ -30,8 +30,6 @@
             text-align: center;
             margin-top: 20px;
          }    
-           
-    
     </style>
 </head>
 
@@ -46,11 +44,14 @@
                 <p><strong>Email:</strong> ${email}</p>
                 <p><strong>Phone Number:</strong> ${phoneNumber}</p>
                 <p><strong>Created At:</strong> ${createdAt}</p>
-                <a href="UpdateProfile" class="btn btn-primary">Edit Profile</a>
+                
+                <!-- Edit Profile Button -->
+                <a href="UpdateProfile" class="btn btn-primary mt-3">Edit Profile</a>
+
+                <!-- View Order History Button -->
+                <a href="OrderHistory.jsp" class="btn btn-primary mt-3">View Order History</a>
             </div>
         </div>
-        
-     </div>
-    
+    </div>
 </body>
 </html>

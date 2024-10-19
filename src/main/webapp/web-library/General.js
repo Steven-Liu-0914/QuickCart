@@ -21,3 +21,12 @@ function AjaxCall(url, method, data, successCallback, errorCallback) {
 		},
 	});
 }
+
+
+function getBaseURL() {
+    const url = window.location.origin; // Returns http://localhost:8080
+    const path = window.location.pathname.split('/'); // Split the pathname into parts
+    return url + '/' + path[1] + '/'; // Combine the origin and the first part of the path (which is the project name)
+}
+
+const baseURL = getBaseURL();

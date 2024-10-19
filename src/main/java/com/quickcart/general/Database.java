@@ -111,6 +111,41 @@ public class Database {
         return null;
     }
 
+    public int runSPWithUpdate(String sql, ArrayList<Object> vals, int outputParamIndex) throws SQLException {
+        int outputValue = -1;
+        try {
+            CallableStatement stmt = connection.prepareCall(sql);
+
+            // Set the parameters for the stored procedure
+            for (int i = 0; i < vals.size(); i++) {
+                if (vals.get(i) instanceof String) {
+                    stmt.setString(i + 1, (String) vals.get(i));
+                } else if (vals.get(i) instanceof Integer) {
+                    stmt.setInt(i + 1, (Integer) vals.get(i));
+                } else if (vals.get(i) instanceof Double) {
+                    stmt.setDouble(i + 1, (Double) vals.get(i));
+                }
+                // Add more types if necessary
+            }
+
+            // Register output parameter for stored procedures that have OUT parameters
+            stmt.registerOutParameter(outputParamIndex, java.sql.Types.INTEGER);
+
+            // Execute the stored procedure (use executeUpdate for non-select queries)
+            stmt.executeUpdate();
+
+            // Get the output parameter value (e.g., orderID)
+            outputValue = stmt.getInt(outputParamIndex);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error executing stored procedure: " + e.getMessage());
+        }
+
+        return outputValue;  // Return the output parameter value (e.g., orderID)
+    }
+
+    
     
     public void close() {
         try {

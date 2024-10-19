@@ -15,6 +15,11 @@ public class UserDTO {
 	public UserDTO() {
 	}
 
+	public UserDTO(int userId, String displayName) {
+		this.userId = userId;
+		this.displayName = displayName;
+	}
+	
 	public UserDTO(int userId, String displayName, String passwordHash, String passwordSalt, String email,
 			String phoneNumber, LocalDateTime createdAt) {
 		this.userId = userId;

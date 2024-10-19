@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.quickcart.general.Database;
 
+
 public class ProductManager {
 	Database db = new Database();
 	
@@ -20,5 +21,13 @@ public class ProductManager {
 		vals.add(ProductId);
 		ResultSet rs = db.runSP("{CALL sp_product_review_list_by_product_id(?)}", vals);
 		return rs;
+	}
+	
+	public ResultSet getProductListing() 
+	{
+		ArrayList<Object> vals = new ArrayList<>();
+		ResultSet rs = db.runSP("{CALL sp_product_get_listing()}", vals);
+		return rs;
+		
 	}
 }

@@ -36,8 +36,7 @@ public class Response {
 	    public static void ResponseError(HttpServletResponse response, String errorMessage) throws IOException {
 	    	objectMapper.registerModule(new JavaTimeModule()); // Register the JavaTimeModule
 	        response.setContentType("application/json");
-	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500 Internal Server Error
-	        String jsonResponse = objectMapper.writeValueAsString(new ResponseData(false, errorMessage, null));
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500 Internal Server Error	    
 	        PrintWriter out = response.getWriter();
 	        out.write(errorMessage);
 	        out.flush();

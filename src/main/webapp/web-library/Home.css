@@ -1,0 +1,67 @@
+
+/* Custom theme color: Bright Orange (#FFA500) */
+.btn-primary {
+	background-color: #FFA500;
+	border-color: #FFA500;
+}
+
+.btn-primary:hover {
+	background-color: #e69500;
+	border-color: #e69500;
+}
+
+.card-title {
+	color: #FFA500;
+}
+
+.card-text {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.card:hover {
+	background-color: #FFF7D1;
+}
+
+.card-img-top {
+	border-radius: 5px;
+	height: 400px;
+}
+
+.header {
+	margin-top: 50px;
+}
+
+#addToCartButton {
+	width: 100%;
+	white-space: nowrap;
+}
+
+.search-bar {
+	margin-bottom: 20px;
+	margin-top: 20px;
+	display: flex;
+}
+
+#searchButton {
+	background-color: #FFA500;
+	color: white;
+	border: none;
+}
+
+#searchButton:hover {
+	background-color: #e69500;
+}
+
+.category-select {
+	margin-right: 10px;
+}
+
+/* Footer styling */
+footer {
+	background-color: #FFA500;
+	color: white;
+	padding: 10px 0;
+	text-align: center;
+	margin-top: 20px;
+}

@@ -80,4 +80,54 @@
     <servlet-name>ProductDetails</servlet-name>
     <url-pattern>/ProductDetails</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProductListing</display-name>
+    <servlet-name>ProductListing</servlet-name>
+    <servlet-class>com.quickcart.servlet.product.ProductListing</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductListing</servlet-name>
+    <url-pattern>/ProductListing</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Cart</display-name>
+    <servlet-name>Cart</servlet-name>
+    <servlet-class>com.quickcart.servlet.cart.Cart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Cart</servlet-name>
+    <url-pattern>/Cart</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CheckOut</display-name>
+    <servlet-name>CheckOut</servlet-name>
+    <servlet-class>com.quickcart.servlet.shopping.CheckOut</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckOut</servlet-name>
+    <url-pattern>/CheckOut</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Order</display-name>
+    <servlet-name>Order</servlet-name>
+    <servlet-class>com.quickcart.servlet.order.Order</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Order</servlet-name>
+    <url-pattern>/Order</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>OrderHistory</display-name>
+    <servlet-name>OrderHistory</servlet-name>
+    <servlet-class>com.quickcart.servlet.order.OrderHistory</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderHistory</servlet-name>
+    <url-pattern>/OrderHistory</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -12,17 +12,20 @@ public class ProductDTO {
 	private int CategoryID;
 	private String CategoryDescription;
 	private List<ReviewDTO> Reviews;
+
 	
 	public ProductDTO() {}
 	
+
 	public ProductDTO(int productID, String productName, String description, Double price, String imageURI,
-			int categoryID) {
+			int categoryID, String categoryDescription) {
 		this.ProductID = productID;
 		this.ProductName = productName;
 		this.Description = description;
 		this.Price = price;
 		this.imageURI = imageURI;
 		this.CategoryID = categoryID;
+		this.CategoryDescription = categoryDescription;
 	}
 
 	public int getProductID() {
