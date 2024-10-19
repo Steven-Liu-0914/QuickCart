@@ -7,28 +7,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logout</title>
-    <style>
-        /* Custom theme color: Bright Orange (#FFA500) */
-        .btn-primary {
-            background-color: #FFA500;
-            border-color: #FFA500;
+    <script>
+
+        // Function to log the user out on page load
+        function logoutUser() {
+            AjaxCall(
+                "User/Logout",  // Call the Logout endpoint
+                "POST",
+                null,
+                function (response) {
+                    console.log("Logged out successfully");
+                    // Display logout message after success
+                },
+                function (jqXHR) {
+                    alert("Failed to log out: " + jqXHR.responseText);
+                }
+            );
         }
-        .btn-primary:hover {
-            background-color: #e69500;
-            border-color: #e69500;
-        }
-        .card-title {
-            color: #FFA500;
-        }
-        /* Footer styling */
-        footer {
-            background-color: #FFA500;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+
+        // Call logoutUser on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            logoutUser();
+        });
+    </script>
 </head>
 <body class="bg-light">
     <div class="container mt-5">
@@ -36,8 +37,9 @@
             <div class="card-body">
                 <h1 class="card-title">You have successfully logged out!</h1>
                 <p class="card-text">Thank you for shopping at QuickCart! We hope to see you again soon!</p>
-                <a href="../Home.jsp" class="btn btn-primary">Log In Again</a>
+                <a href="<%=request.getContextPath()%>/Home.jsp" class="btn btn-primary">Shop Again</a>
             </div>
         </div>
     </div>
+</body>
 </html>

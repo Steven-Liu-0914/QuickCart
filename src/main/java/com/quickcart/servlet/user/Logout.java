@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
+import com.quickcart.general.Response;
+
 /**
  * Servlet implementation class Logout
  */
@@ -22,7 +24,7 @@ public class Logout extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Invalidate the user session
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -30,6 +32,6 @@ public class Logout extends HttpServlet {
         }
 
         // Redirect to the login page or a logout confirmation page
-        response.sendRedirect("User/Logout.jsp");
+       Response.ResponseSuccess(response);
     }
 }

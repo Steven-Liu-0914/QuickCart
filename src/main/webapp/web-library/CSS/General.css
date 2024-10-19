@@ -1,5 +1,3 @@
-
-/* Custom theme color: Bright Orange (#FFA500) */
 .btn-primary {
 	background-color: #FFA500;
 	border-color: #FFA500;
@@ -32,32 +30,6 @@
 	margin-top: 50px;
 }
 
-#addToCartButton {
-	width: 100%;
-	white-space: nowrap;
-}
-
-.search-bar {
-	margin-bottom: 20px;
-	margin-top: 20px;
-	display: flex;
-}
-
-#searchButton {
-	background-color: #FFA500;
-	color: white;
-	border: none;
-}
-
-#searchButton:hover {
-	background-color: #e69500;
-}
-
-.category-select {
-	margin-right: 10px;
-}
-
-/* Footer styling */
 footer {
 	background-color: #FFA500;
 	color: white;
@@ -65,3 +37,10 @@ footer {
 	text-align: center;
 	margin-top: 20px;
 }
+
+.pointer {
+	color: #6c757d; /* Bootstrap primary color */
+	cursor: pointer; /* Change cursor to pointer */
+}
+
+.error { color: red; }

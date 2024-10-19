@@ -3,6 +3,11 @@
     
 <%@ include file="../web-library/Reference.jsp" %>    
 <%@ include file="../Menu.jsp" %> 
+
+<%
+    // Get userData from session
+    UserDTO user = (UserDTO) session.getAttribute("userData");
+%>
     
 <!DOCTYPE html>
 <html lang="en">
@@ -10,48 +15,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - QuickCart</title>
-    <style>
-        .btn-primary {
-            background-color: #FFA500;
-            border-color: #FFA500;
-        }
-        .btn-primary:hover {
-            background-color: #e69500;
-            border-color: #e69500;
-        }
-        .card-title {
-            color: #FFA500;
-        }
-        /* Footer styling */
-        footer {
-            background-color: #FFA500;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            margin-top: 20px;
-         }    
-    </style>
 </head>
 
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">User Profile</h1>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Profile Information</h5>
-                <p><strong>User ID:</strong> ${userId}</p>
-                <p><strong>Display Name:</strong> ${displayName}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Phone Number:</strong> ${phoneNumber}</p>
-                <p><strong>Created At:</strong> ${createdAt}</p>
-                
-                <!-- Edit Profile Button -->
-                <a href="UpdateProfile" class="btn btn-primary mt-3">Edit Profile</a>
 
-                <!-- View Order History Button -->
-                <a href="OrderHistory.jsp" class="btn btn-primary mt-3">View Order History</a>
-            </div>
-        </div>
+        <%
+            if (user == null) {
+                // If userData is null, prompt the user to log in
+        %>
+                <div class="alert alert-warning" role="alert">
+                    Please <a href="<%=request.getContextPath()%>/User/Login.jsp" class="alert-link">log in</a> to view your profile.
+                </div>
+        <%
+            } else {
+                // If userData is present, show the profile information
+        %>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Profile Information</h5>
+
+                        <!-- Display user's profile data -->
+                        <p><strong>User ID:</strong> <%= user.getUserId() %></p>
+                        <p><strong>Display Name:</strong> <%= user.getDisplayName() %></p>
+                        <p><strong>Email:</strong> <%= user.getEmail() %></p>
+                        <p><strong>Phone Number:</strong> <%= user.getPhoneNumber() %></p>
+                        <p><strong>Created At:</strong> <%= user.getCreatedAt() %></p>
+                        
+                        <!-- Edit Profile Button -->
+                        <a href="<%=request.getContextPath()%>/User/UpdateProfile.jsp" class="btn btn-primary mt-3">Edit Profile</a>
+
+                        <!-- View Order History Button -->
+                        <a href="<%=request.getContextPath()%>/Shopping/ViewOrder.jsp" class="btn btn-primary mt-3">View Order History</a>
+                    </div>
+                </div>
+        <%
+            }
+        %>
     </div>
 </body>
 </html>

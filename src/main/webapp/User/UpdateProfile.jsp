@@ -1,110 +1,116 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../web-library/Reference.jsp"%>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Profile</title>
-    <style>
-    	.btn-primary {
-            background-color: #FFA500;
-            border-color: #FFA500;
-        }
-        .btn-primary:hover {
-            background-color: #e69500;
-            border-color: #e69500;
-        }
-        .card-title {
-            color: #FFA500;
-        }
-        /* Footer styling */
-        footer {
-            background-color: #FFA500;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            margin-top: 20px;
-         }    
-        .error { color: red;  
-        }
-        
-    </style>
+    <!-- Styles moved to General.css -->
 </head>
 
 <body>
 <div class="container mt-5">
     <h2>Update Profile</h2>
     <form id="updateProfile" action="UpdateProfile" method="POST">
+        <!-- Display Name -->
         <div class="form-group">
             <label for="newDisplayName">Display Name</label>
             <input type="text" class="form-control" id="newDisplayName" pattern="^[A-Za-z0-9 ]{3,15}$" value="${userData.displayName}" required>
-        	<small class="form-text text-muted">Allowed: 3-20 characters (letters, numbers, and spaces).</small>
-        	<div class="error" id="displayNameError"></div>
+            <small class="form-text text-muted">Allowed: 3-20 characters (letters, numbers, and spaces).</small>
+            <div class="error" id="displayNameError"></div>
         </div>
+        
+        <!-- Phone Number -->
         <div class="form-group">
             <label for="newPhoneNumber">Phone Number</label>
-            <input type="text"class="form-control" id="newPhoneNumber" pattern="(\d{8})" value="${userData.phoneNumber}" required>
-        	<small class="form-text text-muted">Format: e.g. 98745632</small>
-        	<div class="error" id="phoneNumberError"></div> 
+            <input type="tel" class="form-control" id="newPhoneNumber" 
+                    placeholder="Enter your mobile number"
+                    pattern="(\d{8})" 
+                    title="Please enter a valid phone number." value="${userData.phoneNumber}" required>         
+            <small class="form-text text-muted">Format: e.g., 98745632</small>
+            <div class="error" id="phoneNumberError"></div>
         </div>
-        <button type="submit" class="btn btn-primary">Update Profile</button>
-        <button id="backButton" type="button" class="btn btn-secondary" onclick="window.history.back();">Back</button>
+        
+        <!-- New Password (Optional) -->
+        <div class="form-group mt-4">
+            <label for="newPassword">New Password (Optional)</label>
+            <input type="password" class="form-control" id="newPassword" placeholder="Enter your new password">
+            <small class="form-text text-muted">Password must contain at least 8 characters, including uppercase, lowercase, and numbers.</small>
+            <div class="error" id="passwordError"></div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group mt-2">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+            <div class="error" id="confirmPasswordError"></div>
+        </div>
+
+        <!-- Submit and Back Buttons -->
+        <button type="submit" class="btn btn-primary mt-4">Update Profile</button>
+        <button id="backButton" type="button" class="btn btn-secondary mt-4" onclick="window.history.back();">Back</button>
     </form>
 </div>
 
+<!-- Script for validation and AJAX submission -->
 <script>
-    
     $(document).ready(function() {
         $('#updateProfile').on('submit', function(event) {
             // Clear previous error messages
             $('.error').text('');
 
-            // Check if the form is valid
-            if (!this.checkValidity()) {
-                event.preventDefault(); // Prevent form submission
-                this.classList.add('was-validated'); // Add Bootstrap validation class
+            // Collect updated values
+            var email = "${userData.email}";
+            var newDisplayName = $("#newDisplayName").val();
+            var newPhoneNumber = $("#newPhoneNumber").val();
+            var newPassword = $("#newPassword").val();
+            var confirmPassword = $("#confirmPassword").val();
 
-                // Show custom error messages
-                
-                if (!$('#newDisplayName')[0].checkValidity()) {
-                    $('#displayNameError').text('Please enter a valid display name.');
-                }
-                if (!$('#newPhoneNumber')[0].checkValidity()) {
-                    $('#phoneNumberError').text('Phone number must be 8 digits');
-                }
-                
-            } else {
-                // If the form is valid, prevent default submission for AJAX
+            // Basic form validation
+            if (!newDisplayName || !newPhoneNumber) {
                 event.preventDefault();
-            
-          		var email = "${userData.email}";
-            	var newDisplayName = $("#newDisplayName").val();
-            	var newPhoneNumber = $("#newPhoneNumber").val();
-                
-                
+                return; // Stop form submission
+            }
 
-                AjaxCall(
-                    "http://localhost:8080/QuickCart/User/UpdateProfile",
-                    "POST",
-                    { email: email, newDisplayName: newDisplayName, newPhoneNumber: newPhoneNumber },
-                    function(data) {
-                        // Handle success
-                        window.location.href = "User/UpdateProfileSuccess.jsp"; // Example redirect
-                    },
-                    function(jqXHR) {
-                        // Handle error
-                        alert(jqXHR.responseText); // Show error message
-                    });
-            	};
-            
-            });
+            // Validate password if a new password is provided
+            if (newPassword) {
+                if (newPassword.length < 8 || !newPassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)) {
+                    $('#passwordError').text('Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, and a digit.');
+                    event.preventDefault();
+                    return;
+                }
+                if (newPassword !== confirmPassword) {
+                    $('#confirmPasswordError').text('Passwords do not match.');
+                    event.preventDefault();
+                    return;
+                }
+            }
+
+            // If valid, prevent default submission for AJAX
+            event.preventDefault();
+
+            // AJAX call for updating profile
+            AjaxCall(
+                "User/UpdateProfile",
+                "POST",
+                {                    
+                    newDisplayName: newDisplayName, 
+                    newPhoneNumber: newPhoneNumber, 
+                    newPassword: newPassword 
+                },
+                function(data) {
+                    // Handle success
+                    window.location.href = getBaseURL() + "User/UpdateProfileSuccess.jsp";
+                },
+                function(jqXHR) {
+                    // Handle error
+                    alert(jqXHR.responseText); // Show error message
+                }
+            );
         });
-    
-    
-    
-    </script>
+    });
+</script>
 </body>     
 </html>

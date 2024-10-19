@@ -1,0 +1,29 @@
+
+/* Custom theme color: Bright Orange (#FFA500) */
+
+#addToCartButton {
+	width: 100%;
+	white-space: nowrap;
+}
+
+.search-bar {
+	margin-bottom: 20px;
+	margin-top: 20px;
+	display: flex;
+}
+
+#searchButton {
+	background-color: #FFA500;
+	color: white;
+	border: none;
+}
+
+#searchButton:hover {
+	background-color: #e69500;
+}
+
+.category-select {
+	margin-right: 10px;
+}
+
+/* Footer styling */

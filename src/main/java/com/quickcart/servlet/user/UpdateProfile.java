@@ -9,8 +9,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-
 import com.quickcart.data.models.UserDTO;
 import com.quickcart.general.Response;
 
@@ -20,82 +18,80 @@ import com.quickcart.general.Response;
 @WebServlet("/User/UpdateProfile")
 public class UpdateProfile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public UpdateProfile() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException {
-        
-    	HttpSession session = request.getSession();
-        UserDTO user = (UserDTO) session.getAttribute("userData"); // Get user from session
-        
-        if (user == null) {
-        	response.sendRedirect("User/Login.jsp"); // Redirect if no user is logged in
-            return;
-        }
-        
-        request.setAttribute("userData", user); // Set user as a request attribute
-        request.getRequestDispatcher("User/UpdateProfile.jsp").forward(request, response);
-    }// Forward to JSP
-    
+	public UpdateProfile() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		UserManager userManager = new UserManager();
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		
-		String email = request.getParameter("email");
+
+		// Retrieve parameters from the request
 		String newDisplayName = request.getParameter("newDisplayName");
 		String newPhoneNumber = request.getParameter("newPhoneNumber");
+		String newPassword = request.getParameter("newPassword"); // New Password
 
 		PrintWriter out = response.getWriter();
-
 		boolean result = false;
-		boolean exists = false;
 
-		if (newDisplayName != null && newPhoneNumber != null  && !newDisplayName.isEmpty() && !newPhoneNumber.isEmpty()) {
+		// Retrieve user data from the session
+		HttpSession session = request.getSession(false);
+		UserDTO userData = (UserDTO) session.getAttribute("userData");
 
+		if (userData != null && newDisplayName != null && newPhoneNumber != null && !newDisplayName.isEmpty()
+				&& !newPhoneNumber.isEmpty()) {
 			try {
+				// Get userId from session
+				int userId = userData.getUserId();
 
-				exists = userManager.checkEmailExists(email);
-				if (exists == true) {
+				// Generate new salt and hash password if a new password is provided
+				String salt = null;
+				String passwordHashedSalt = null;
+				if (newPassword != null && !newPassword.isEmpty()) {
+					salt = userManager.getSalt();
+					passwordHashedSalt = userManager.hashPassword(newPassword, salt);
+				}
 
-					result = userManager.updateUserProfile(email, newDisplayName,newPhoneNumber);
-					if (result) {
-						HttpSession session = request.getSession();
-						session.invalidate();
-						Response.ResponseSuccess(response);
+				// Update user profile
+				result = userManager.updateUserProfile(userId, newDisplayName, newPhoneNumber, passwordHashedSalt,
+						salt);
 
-					}
+				if (result) {
+					// Fetch updated user details from DB
+					UserDTO user = userManager.getUserById(userId);
+
+					// Add updated user data to session
+					session.setAttribute("userData", user);
+
+					// Send success response
+					Response.ResponseSuccess(response);
+
 				} else {
-					// Email do not exist
-					Response.ResponseError(response, "Error fetching email address");
-
+					Response.ResponseError(response, "Failed to update profile.");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				Response.ResponseError(response, "Database Error");
 			}
-
 		} else {
-			Response.ResponseError(response, "Invalid request");
+			// If required fields are missing
+			Response.ResponseError(response, "Invalid request: Missing profile data.");
 		}
+
 		out.flush();
 		out.close();
 	}
-	
 
 }

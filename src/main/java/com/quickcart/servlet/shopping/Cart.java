@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.quickcart.data.models.CartItem;
-import com.quickcart.data.models.ProductDTO;
+
 import com.quickcart.data.models.UserDTO;
 import com.quickcart.general.Response;
 

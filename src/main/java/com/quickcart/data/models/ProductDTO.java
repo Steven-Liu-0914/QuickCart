@@ -12,6 +12,7 @@ public class ProductDTO {
 	private int CategoryID;
 	private String CategoryDescription;
 	private List<ReviewDTO> Reviews;
+	private OrderDTO RecentOrderOftheProduct;
 
 	
 	public ProductDTO() {}
@@ -90,5 +91,13 @@ public class ProductDTO {
 
 	public void setProductReviews(List<ReviewDTO> reviews) {
 		Reviews = reviews;
+	}
+	
+	public OrderDTO getRecentOrderOftheProduct() {
+		return RecentOrderOftheProduct;
+	}
+
+	public void setRecentOrderOftheProduct(OrderDTO order) {
+		RecentOrderOftheProduct = order;
 	}
 }

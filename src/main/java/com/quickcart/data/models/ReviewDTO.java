@@ -1,6 +1,7 @@
 package com.quickcart.data.models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ReviewDTO {
 	
@@ -10,12 +11,13 @@ public class ReviewDTO {
 	private int OrderID;
 	private double Rating;
 	private String Comment;
-	private LocalDateTime CommentedAt;
+	private String CommentedAt;
+	private String DisplayName;
 	
 	public ReviewDTO() {}
 
 	public ReviewDTO(int reviewID, int userID, int productID, int orderID, double rating, String comment,
-			LocalDateTime commentedAt) {
+			String commentedAt) {
 		this.ReviewID = reviewID;
 		this.UserID = userID;
 		this.ProductID = productID;
@@ -31,6 +33,14 @@ public class ReviewDTO {
 
 	public void setReviewID(int reviewID) {
 		ReviewID = reviewID;
+	}
+	
+	public String getDisplayName() {
+		return DisplayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.DisplayName = displayName;
 	}
 
 	public int getUserID() {
@@ -73,11 +83,15 @@ public class ReviewDTO {
 		Comment = comment;
 	}
 
-	public LocalDateTime getCommentedAt() {
+	public String getCommentedAt() {
 		return CommentedAt;
 	}
 
 	public void setCommentedAt(LocalDateTime commentedAt) {
-		CommentedAt = commentedAt;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String formattedCommentedAt = commentedAt.format(formatter);
+		
+		this.CommentedAt = formattedCommentedAt;
+
 	}
 }

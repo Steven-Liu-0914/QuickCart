@@ -12,9 +12,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.quickcart.data.models.OrderDTO;
 import com.quickcart.data.models.ProductDTO;
 import com.quickcart.data.models.ReviewDTO;
+import com.quickcart.data.models.UserDTO;
 import com.quickcart.general.Response;
+
 
 /**
  * Servlet implementation class ProductDetails
@@ -57,6 +60,8 @@ public class Product extends HttpServlet {
 	            product.setPrice(productRs.getDouble("Price"));
 	            product.setImageURI(productRs.getString("ImageURL"));
 	            product.setCategoryDescription(productRs.getString("CategoryDescription"));
+	            
+	            
 	        } else {
 	            // If no product details found, handle appropriately (e.g., return error response)
 	        	Response.ResponseError(response, "Product not found.");
@@ -66,7 +71,13 @@ public class Product extends HttpServlet {
 	        // Fetch reviews using sp_product_review_list_by_product_id
 	        ResultSet reviewRs = productManager.getPrductReviewListById(Integer.parseInt(productId));
 	        List<ReviewDTO> reviews = new ArrayList<>();
-
+	        UserDTO user = (UserDTO) request.getSession().getAttribute("userData");
+	        if(user!=null) {
+	        OrderDTO recentOrder = productManager.getRecentOrderForProduct(Integer.parseInt(productId), user.getUserId());
+	        if (recentOrder != null) {
+	            product.setRecentOrderOftheProduct(recentOrder);
+	        }}
+	        
 	        if(reviewRs!=null) 
 	        {
 	        while (reviewRs.next()) {
@@ -74,6 +85,8 @@ public class Product extends HttpServlet {
 	            ReviewDTO review = new ReviewDTO();
 	            review.setReviewID(reviewRs.getInt("ReviewID"));
 	            review.setUserID(reviewRs.getInt("UserID"));
+	         
+	            review.setDisplayName(reviewRs.getString("DisplayName"));
 	            review.setProductID(reviewRs.getInt("ProductID")); // Same as productId
 	            review.setOrderID(reviewRs.getInt("OrderID"));
 	            review.setRating(reviewRs.getDouble("Rating"));
@@ -97,8 +110,4 @@ public class Product extends HttpServlet {
         
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	
 }

@@ -50,17 +50,10 @@
     </div>
 
     <script>
-        // Function to get the base URL
-        function getBaseURL() {
-            const url = window.location.origin;
-            const path = window.location.pathname.split('/');
-            return url + '/' + path[1] + '/';
-        }
-
         // Function to load order history when page loads
         function loadOrderHistory() {
             AjaxCall(
-                getBaseURL() + "Order/History",  // Update with correct API endpoint
+                "Order/History",  // Update with correct API endpoint
                 "GET",
                 null,
                 function (response) {

@@ -26,35 +26,49 @@
         .order-total {
             font-size: 1.2em;
         }
-        
-        .btn-primary {
-	background-color: #FFA500;
-	border-color: #FFA500;
-}
-
-.btn-primary:hover {
-	background-color: #e69500;
-	border-color: #e69500;
-}
     </style>
+</head>
+<body>
+    <div class="container order-container" style="margin-top:80px">
+        <h2 class="text-center">Order Details</h2>
 
+        <div>
+            <strong>Order ID:</strong> <span id="orderID"></span><br>
+            <strong>User:</strong> <span id="orderUser"></span><br>
+            <strong>Order Placed At:</strong> <span id="orderPlacedAt"></span><br>
+        </div>
+
+        <table class="order-table table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="orderTableBody">
+                <!-- Order items will be dynamically loaded here -->
+            </tbody>
+        </table>
+
+        <div class="order-summary">
+            <span class="order-total">Total: <span id="orderTotal">$0.00</span></span>
+        </div>
+
+        <!-- View Order History Button -->
+        <div class="text-left mt-4">
+            <a href="<%=request.getContextPath()%>/Shopping/ViewOrder.jsp" class="btn btn-primary">View All Order History</a>
+            <a href="<%=request.getContextPath()%>/Home.jsp" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- Scripts moved to the bottom for optimization -->
     <script>
-        // Function to get the base URL
-        function getBaseURL() {
-            const url = window.location.origin;
-            const path = window.location.pathname.split('/');
-            return url + '/' + path[1] + '/';
-        }
-        
-        // JavaScript function to redirect to Order History page
-        function viewOrderHistory() {
-            window.location.href = getBaseURL() + "ViewOrder.jsp"; // Replace with actual OrderHistory page URL
-        }
-
         // Function to load order details
         function loadOrderDetails(orderID) {
             AjaxCall(
-                getBaseURL() + "Order/Details?orderID=" + orderID, // API endpoint for fetching order details
+                "Order/Details?orderID=" + orderID,
                 "GET",
                 null,
                 function (response) {
@@ -64,13 +78,12 @@
                     document.getElementById("orderPlacedAt").innerText = order.orderPlacedAt;
                     document.getElementById("orderTotal").innerText = "$" + order.totalAmount.toFixed(2);
 
-                    // Load order items into the table
                     const orderItems = order.orderItems;
                     const orderTableBody = document.getElementById("orderTableBody");
                     orderTableBody.innerHTML = ""; // Clear existing rows
 
                     orderItems.forEach(function (item) {
-                        const rowHtml = 
+                        const rowHtml =
                             '<tr>' +
                                 '<td>' + item.product.productName + '</td>' +
                                 '<td>' + item.quantity + '</td>' +
@@ -102,40 +115,5 @@
             }
         });
     </script>
-</head>
-<body>
-    <div class="container order-container" style="margin-top:80px">
-        <h2 class="text-center">Order Details</h2>
-
-        <div>
-            <strong>Order ID:</strong> <span id="orderID"></span><br>
-            <strong>User:</strong> <span id="orderUser"></span><br>
-            <strong>Order Placed At:</strong> <span id="orderPlacedAt"></span><br>
-        </div>
-
-        <table class="order-table table table-bordered">
-            <thead>
-                <tr>
-                    <th>Product Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody id="orderTableBody">
-                <!-- Order items will be dynamically loaded here -->
-            </tbody>
-        </table>
-
-        <div class="order-summary">
-            <span class="order-total">Total: <span id="orderTotal">$0.00</span></span>
-        </div>
-        
-         <!-- View Order History Button -->
-        <div class="text-left mt-4">
-           <a href="ViewOrder.jsp" class="btn btn-primary">View All Order History</a>
-           <a href="Home.jsp" class="btn btn-primary">Continue Shopping</a>
-        </div>
-    </div>
 </body>
 </html>
