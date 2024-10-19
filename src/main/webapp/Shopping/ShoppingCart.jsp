@@ -53,7 +53,7 @@
             <tbody id="cartTableBody">
                 <!-- Products will be dynamically loaded here -->
             </tbody>
-        </table>
+        </table> 
 
         <div class="total-price">
             Total: <span id="totalPrice">$0.00</span>
