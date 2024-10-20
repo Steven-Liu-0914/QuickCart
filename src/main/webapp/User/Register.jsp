@@ -22,7 +22,7 @@
                 <label for="displayName">Display Name:</label>
                 <input type="text" class="form-control" id="displayName" 
                     placeholder="Enter your display name" 
-                    pattern="^[A-Za-z0-9 ]{3,15}$" 
+                    pattern="^[A-Za-z0-9 ]{3,20}$" 
                     title="Display name must be 3-20 characters long and can only contain letters, numbers, and spaces." required>
                 <small class="form-text text-muted">Allowed: 3-20 characters (letters, numbers, and spaces).</small>
                 <div class="error" id="displayNameError"></div>

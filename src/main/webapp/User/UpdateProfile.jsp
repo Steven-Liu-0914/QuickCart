@@ -17,7 +17,7 @@
         <!-- Display Name -->
         <div class="form-group">
             <label for="newDisplayName">Display Name</label>
-            <input type="text" class="form-control" id="newDisplayName" pattern="^[A-Za-z0-9 ]{3,15}$" value="${userData.displayName}" required>
+            <input type="text" class="form-control" id="newDisplayName" pattern="^[A-Za-z0-9 ]{3,20}$" value="${userData.displayName}" required>
             <small class="form-text text-muted">Allowed: 3-20 characters (letters, numbers, and spaces).</small>
             <div class="error" id="displayNameError"></div>
         </div>
@@ -57,22 +57,13 @@
 <!-- Script for validation and AJAX submission -->
 <script>
 $(document).ready(function() {
-    $('#updateProfile').on('submit', async function(event) {  // Mark the function as async
+    $('#updateProfile').on('submit', async function(event) {  
         // Clear previous error messages
         $('.error').text('');
 
         // Collect updated values
-        var email = "${userData.email}";
-        var newDisplayName = $("#newDisplayName").val();
-        var newPhoneNumber = $("#newPhoneNumber").val();
         var newPassword = $("#newPassword").val();
         var confirmPassword = $("#confirmPassword").val();
-
-        // Basic form validation
-        if (!newDisplayName || !newPhoneNumber) {
-            event.preventDefault();
-            return; // Stop form submission
-        }
 
         // Validate password if a new password is provided
         if (newPassword) {
@@ -102,8 +93,8 @@ $(document).ready(function() {
             "User/UpdateProfile",
             "POST",
             {                    
-                newDisplayName: newDisplayName, 
-                newPhoneNumber: newPhoneNumber, 
+                newDisplayName: $("#newDisplayName").val(), 
+                newPhoneNumber: $("#newPhoneNumber").val(), 
                 newPassword: encryptedPassword // Pass encrypted password
             },
             function(data) {
