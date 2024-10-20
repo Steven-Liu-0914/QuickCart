@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import com.quickcart.data.models.UserDTO;
+import com.quickcart.general.AESDecryptor;
 import com.quickcart.general.Response;
 
 /**
@@ -39,6 +40,12 @@ public class Login extends HttpServlet {
 
 		String userEmail = request.getParameter("email");
 		String password = request.getParameter("password");
+		try {
+			password = AESDecryptor.decryptPassword(password);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		UserManager userManager = new UserManager();
 
 		// Use a PrintWriter to send the JSON response

@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import com.quickcart.data.models.UserDTO;
+import com.quickcart.general.AESDecryptor;
 import com.quickcart.general.Response;
 
 /**
@@ -38,11 +39,14 @@ public class Register extends HttpServlet {
 			throws ServletException, IOException {
 		// Set response content type to JSON
 		UserManager userManager = new UserManager();
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-
 		String displayName = request.getParameter("displayName");
 		String password = request.getParameter("password");
+		try {
+			password = AESDecryptor.decryptPassword(password);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String email = request.getParameter("email");
 		String phoneNumber = request.getParameter("phoneNumber");
 		boolean result = false;

@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import com.quickcart.data.models.UserDTO;
+import com.quickcart.general.AESDecryptor;
 import com.quickcart.general.Response;
 
 /**
@@ -35,14 +36,19 @@ public class UpdateProfile extends HttpServlet {
 			throws ServletException, IOException {
 
 		UserManager userManager = new UserManager();
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
 
 		// Retrieve parameters from the request
 		String newDisplayName = request.getParameter("newDisplayName");
 		String newPhoneNumber = request.getParameter("newPhoneNumber");
 		String newPassword = request.getParameter("newPassword"); // New Password
 
+		try {
+			newPassword = AESDecryptor.decryptPassword(newPassword);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		PrintWriter out = response.getWriter();
 		boolean result = false;
 

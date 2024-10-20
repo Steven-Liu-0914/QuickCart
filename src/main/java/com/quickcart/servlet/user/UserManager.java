@@ -73,53 +73,36 @@ public class UserManager {
 
 	}
 
-	public boolean createUser(String displayName, String password, String email, String phoneNumber) {
+	public Boolean createUser(String displayName, String password, String email, String phoneNumber) {
 	    try {
 	        ArrayList<Object> prepStmt = new ArrayList<>();
-	        
+
 	        // Generate salt and hash the password with salt
 	        String salt = getSalt();
 	        String passwordHashedSalt = hashPassword(password, salt);
 
-	        String sql = "CALL sp_create_user(?, ?, ?, ?, ?)"; // Using stored procedure
+	        String sql = "CALL sp_create_user(?, ?, ?, ?, ?, ?)";  // The last '?' is for the output parameter (new user ID)
 
-	        // Adding parameters for display name, password hash, salt, email, and phone number
+	        // Adding input parameters for display name, password hash, salt, email, and phone number
 	        prepStmt.add(displayName);
 	        prepStmt.add(passwordHashedSalt);
 	        prepStmt.add(salt);
 	        prepStmt.add(email);
 	        prepStmt.add(phoneNumber);
 
-	        // Use runSPWithUpdate for executing the stored procedure
-	        db.runSPWithUpdate(sql, prepStmt, 1);  // Assuming the first parameter for returning the result
-	        return true;
+	        // Run stored procedure and capture the output parameter (new UserID)
+	        int newUserId = db.runSPWithUpdate(sql, prepStmt, 6);  // The 6th parameter is the output
+
+	        return newUserId >0;  // Return the new user ID
+
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        return false;
+	        return false;  // Return -1 or any error indicator
 	    }
 	}
 
 
-	public boolean updateUser(String email, String newPassword) {
-		try {
-			ArrayList<Object> prepStmt = new ArrayList<>();
-			String salt = getSalt();
-			String passwordHashedSalt = hashPassword(newPassword, salt);
 
-			String sql = "UPDATE User SET Password_Hash = ?, Password_Salt = ? WHERE Email = ?";
-			prepStmt.add(passwordHashedSalt);
-			prepStmt.add(salt);
-			prepStmt.add(email);
-
-			// Use runSQL for the update statement
-			db.updateSQL(sql, prepStmt);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
-	}
 	
 	public boolean updateUserProfile(int userId, String displayName, String phoneNumber, String newPassword, String salt) {
 	    try {

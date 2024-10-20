@@ -56,61 +56,67 @@
 
 <!-- Script for validation and AJAX submission -->
 <script>
-    $(document).ready(function() {
-        $('#updateProfile').on('submit', function(event) {
-            // Clear previous error messages
-            $('.error').text('');
+$(document).ready(function() {
+    $('#updateProfile').on('submit', async function(event) {  // Mark the function as async
+        // Clear previous error messages
+        $('.error').text('');
 
-            // Collect updated values
-            var email = "${userData.email}";
-            var newDisplayName = $("#newDisplayName").val();
-            var newPhoneNumber = $("#newPhoneNumber").val();
-            var newPassword = $("#newPassword").val();
-            var confirmPassword = $("#confirmPassword").val();
+        // Collect updated values
+        var email = "${userData.email}";
+        var newDisplayName = $("#newDisplayName").val();
+        var newPhoneNumber = $("#newPhoneNumber").val();
+        var newPassword = $("#newPassword").val();
+        var confirmPassword = $("#confirmPassword").val();
 
-            // Basic form validation
-            if (!newDisplayName || !newPhoneNumber) {
-                event.preventDefault();
-                return; // Stop form submission
-            }
-
-            // Validate password if a new password is provided
-            if (newPassword) {
-                if (newPassword.length < 8 || !newPassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)) {
-                    $('#passwordError').text('Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, and a digit.');
-                    event.preventDefault();
-                    return;
-                }
-                if (newPassword !== confirmPassword) {
-                    $('#confirmPasswordError').text('Passwords do not match.');
-                    event.preventDefault();
-                    return;
-                }
-            }
-
-            // If valid, prevent default submission for AJAX
+        // Basic form validation
+        if (!newDisplayName || !newPhoneNumber) {
             event.preventDefault();
+            return; // Stop form submission
+        }
 
-            // AJAX call for updating profile
-            AjaxCall(
-                "User/UpdateProfile",
-                "POST",
-                {                    
-                    newDisplayName: newDisplayName, 
-                    newPhoneNumber: newPhoneNumber, 
-                    newPassword: newPassword 
-                },
-                function(data) {
-                    // Handle success
-                    window.location.href = getBaseURL() + "User/UpdateProfileSuccess.jsp";
-                },
-                function(jqXHR) {
-                    // Handle error
-                    alert(jqXHR.responseText); // Show error message
-                }
-            );
-        });
+        // Validate password if a new password is provided
+        if (newPassword) {
+            if (newPassword.length < 8 || !newPassword.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)) {
+                $('#passwordError').text('Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, and a digit.');
+                event.preventDefault();
+                return;
+            }
+            if (newPassword !== confirmPassword) {
+                $('#confirmPasswordError').text('Passwords do not match.');
+                event.preventDefault();
+                return;
+            }
+        }
+
+        // Prevent default submission for AJAX
+        event.preventDefault();
+
+        // Encrypt the password if a new password is provided
+        let encryptedPassword = null;
+        if (newPassword) {
+            encryptedPassword = await encryptPassword(newPassword);  // Use await to encrypt the password
+        }
+
+        // AJAX call for updating profile
+        AjaxCall(
+            "User/UpdateProfile",
+            "POST",
+            {                    
+                newDisplayName: newDisplayName, 
+                newPhoneNumber: newPhoneNumber, 
+                newPassword: encryptedPassword // Pass encrypted password
+            },
+            function(data) {
+                // Handle success
+                window.location.href = getBaseURL() + "User/UpdateProfileSuccess.jsp";
+            },
+            function(jqXHR) {
+                // Handle error
+                alert(jqXHR.responseText); // Show error message
+            }
+        );
     });
+});
 </script>
 </body>     
 </html>

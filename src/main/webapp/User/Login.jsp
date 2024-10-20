@@ -38,14 +38,18 @@
 
     <!-- Custom script for AJAX login -->
     <script>
-    $("#loginButton").on("click", function() {
+    $("#loginButton").on("click", async function() {  // Mark this function as async
         var userEmail = $("#email").val();
         var password = $("#password").val();
 
+        // Wait for the password to be encrypted
+        var encryptedPassword = await encryptPassword(password);
+
+        // Proceed with the AJAX call once encryption is done
         AjaxCall(
             "/User/Login",
             "POST",
-            { email: userEmail, password: password },
+            { email: userEmail, password: encryptedPassword },
             function(data) {
                 // Handle success
                 window.location.href = getBaseURL() + "Home.jsp"; 
@@ -55,7 +59,7 @@
                 alert(jqXHR.responseText); // Show error message
             }
         );
-    });
+    });    
     </script>
 </body>
 </html>

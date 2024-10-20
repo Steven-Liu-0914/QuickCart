@@ -1,5 +1,4 @@
 
-
 function getBaseURL() {
     const url = window.location.origin; // Returns http://localhost:8080
     const path = window.location.pathname.split('/'); // Split the pathname into parts
@@ -28,6 +27,9 @@ function AjaxCall(url, method, data, successCallback, errorCallback) {
 		},
 	});
 }
+
+
+
 
 
 
