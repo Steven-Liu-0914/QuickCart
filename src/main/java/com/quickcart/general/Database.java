@@ -118,14 +118,16 @@ public class Database {
 
             // Set the parameters for the stored procedure
             for (int i = 0; i < vals.size(); i++) {
-                if (vals.get(i) instanceof String) {
-                    stmt.setString(i + 1, (String) vals.get(i));
-                } else if (vals.get(i) instanceof Integer) {
-                    stmt.setInt(i + 1, (Integer) vals.get(i));
-                } else if (vals.get(i) instanceof Double) {
-                    stmt.setDouble(i + 1, (Double) vals.get(i));
-                }
-                // Add more types if necessary
+            	 if (vals.get(i) == null) {
+                     // Explicitly set SQL NULL if the parameter value is null
+                     stmt.setNull(i + 1, java.sql.Types.VARCHAR);
+                 } else if (vals.get(i) instanceof String) {
+                     stmt.setString(i + 1, (String) vals.get(i));
+                 } else if (vals.get(i) instanceof Integer) {
+                     stmt.setInt(i + 1, (Integer) vals.get(i));
+                 } else if (vals.get(i) instanceof Double) {
+                     stmt.setDouble(i + 1, (Double) vals.get(i));
+                 }
             }
 
             // Register output parameter for stored procedures that have OUT parameters

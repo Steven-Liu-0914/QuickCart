@@ -43,7 +43,8 @@ public class UpdateProfile extends HttpServlet {
 		String newPassword = request.getParameter("newPassword"); // New Password
 
 		try {
-			newPassword = AESDecryptor.decryptPassword(newPassword);
+			if(newPassword!=null&&!newPassword.isEmpty()) {
+			newPassword = AESDecryptor.decryptPassword(newPassword);}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

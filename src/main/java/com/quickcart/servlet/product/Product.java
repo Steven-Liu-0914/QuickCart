@@ -73,7 +73,7 @@ public class Product extends HttpServlet {
 	        List<ReviewDTO> reviews = new ArrayList<>();
 	        UserDTO user = (UserDTO) request.getSession().getAttribute("userData");
 	        if(user!=null) {
-	        OrderDTO recentOrder = productManager.getRecentOrderForProduct(Integer.parseInt(productId), user.getUserId());
+	        OrderDTO recentOrder = productManager.getRecentOrderForProduct(user.getUserId(),Integer.parseInt(productId));
 	        if (recentOrder != null) {
 	            product.setRecentOrderOftheProduct(recentOrder);
 	        }}
