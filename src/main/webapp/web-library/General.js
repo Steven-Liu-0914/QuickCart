@@ -28,6 +28,33 @@ function AjaxCall(url, method, data, successCallback, errorCallback) {
 	});
 }
 
+function formatDateToSGTime(datetime) {
+    // Create a Date object from the input datetime (assuming it's in UTC)
+    let date = new Date(datetime);
+
+    // Add 8 hours to convert UTC to Singapore time (UTC+8)
+    date.setHours(date.getHours() + 8);
+
+    // Manually format the date to "yyyy-MM-dd HH:mm:ss"
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so +1
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    // Combine to "yyyy-MM-dd HH:mm:ss"
+    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+    return formattedDate;
+}
+
+
+
+
+
+
+
 
 
 

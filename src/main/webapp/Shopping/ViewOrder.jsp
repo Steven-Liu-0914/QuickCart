@@ -62,11 +62,13 @@
 
                     orderHistoryTableBody.innerHTML = "";  // Clear existing rows
 
-                    orderList.forEach(function (order) {
+                    orderList.forEach(function (order) {              
+                    	
+                    	const orderPlacedAt = formatDateToSGTime(order.orderPlacedAt);                    
                         const rowHtml = 
                             '<tr>' +
                                 '<td>' + order.orderID + '</td>' +
-                                '<td>' + order.orderPlacedAt + '</td>' +
+                                '<td>' + orderPlacedAt + '</td>' +
                                 '<td>$' + order.totalAmount.toFixed(2) + '</td>' +
                                 '<td><button class="btn btn-view" onclick="viewOrderDetails(' + order.orderID + ')">View</button></td>' +
                             '</tr>';

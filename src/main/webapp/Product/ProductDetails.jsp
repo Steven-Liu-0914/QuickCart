@@ -169,9 +169,10 @@
                 // Check if user has recently purchased the product
                 if (data.recentOrderOftheProduct) {
                     orderId = data.recentOrderOftheProduct.orderID;
+                    const orderPlacedAt = formatDateToSGTime( data.recentOrderOftheProduct.orderPlacedAt);  
                     $('#recentOrderInfo').html(
                         "You have bought this product recently at " +
-                        data.recentOrderOftheProduct.orderPlacedAt +
+                        orderPlacedAt +
                         ". (Order #" + data.recentOrderOftheProduct.orderID + "). " +
                         "Do you want to share your comments to help others?"
                     );

@@ -17,7 +17,7 @@ public class Database {
     	
     	 try {
     	     Class.forName("com.mysql.cj.jdbc.Driver"); // Use com.mysql.jdbc.Driver if you're not on MySQL 8+ yet.
-    	     System.out.println("Driver loaded!");
+    	 
     	 } catch (ClassNotFoundException e) {
     	     throw new IllegalStateException("Cannot find the driver in the classpath!", e);
     	 }

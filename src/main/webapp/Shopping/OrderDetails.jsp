@@ -75,7 +75,8 @@
                     const order = response.data;
                     document.getElementById("orderID").innerText = order.orderID;
                     document.getElementById("orderUser").innerText = order.user.displayName;
-                    document.getElementById("orderPlacedAt").innerText = order.orderPlacedAt;
+                    const orderPlacedAt = formatDateToSGTime(order.orderPlacedAt);  
+                    document.getElementById("orderPlacedAt").innerText = orderPlacedAt;
                     document.getElementById("orderTotal").innerText = "$" + order.totalAmount.toFixed(2);
 
                     const orderItems = order.orderItems;

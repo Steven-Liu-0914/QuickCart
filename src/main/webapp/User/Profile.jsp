@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5" style="margin-top: 5rem !important">
         <h1 class="mb-4">User Profile</h1>
 
         <%
@@ -41,7 +41,7 @@
                         <p><strong>Display Name:</strong> <%= user.getDisplayName() %></p>
                         <p><strong>Email:</strong> <%= user.getEmail() %></p>
                         <p><strong>Phone Number:</strong> <%= user.getPhoneNumber() %></p>
-                        <p><strong>Created At:</strong> <%= user.getCreatedAt() %></p>
+                        <p ><strong>Created At:</strong><span id="createdAt"><%= user.getCreatedAt() %></span></p>
                         
                         <!-- Edit Profile Button -->
                         <a href="<%=request.getContextPath()%>/User/UpdateProfile.jsp" class="btn btn-primary mt-3">Edit Profile</a>
@@ -54,5 +54,18 @@
             }
         %>
     </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Get the createdAt value from the JSP
+        const createdAtValue = document.getElementById("createdAt").innerText;
+
+        // Format the date
+        const formattedDate = formatDateToSGTime(createdAtValue);
+
+        // Update the content with the formatted date
+        document.getElementById("createdAt").innerText = formattedDate;
+    });
+</script>
 </body>
 </html>

@@ -127,57 +127,72 @@
         }
 
         // Function to load cart products when page loads
-        function loadCartProducts() {
-            AjaxCall(
-                "Shopping/Cart",
-                "GET",
-                null,
-                function (response) {
-                    const cartItemList = response.data;
-                    const cartTableBody = document.getElementById("cartTableBody");
-                    const totalPriceContainer = document.querySelector(".total-price");
-                    const buttonsContainer = document.querySelector(".mt-4");
+       function loadCartProducts() {
+    AjaxCall(
+        "Shopping/Cart",
+        "GET",
+        null,
+        function (response) {
+            const cartItemList = response.data;
+            const cartTableBody = document.getElementById("cartTableBody");
+            const totalPriceContainer = document.querySelector(".total-price");
+            const buttonsContainer = document.querySelector(".mt-4");
 
-                    cartTableBody.innerHTML = "";
+            cartTableBody.innerHTML = "";
 
-                    if (cartItemList.length === 0) {
-                        cartTableBody.innerHTML = '<tr><td colspan="5" class="text-center">Your cart is empty. <a href="' + getBaseURL() + 'Home.jsp">Go to shopping</a></td></tr>';
-                        totalPriceContainer.style.display = 'none';
-                        buttonsContainer.style.display = 'none';
-                    } else {
-                        cartItemList.forEach(function (cartItem, index) {
-                            const product = cartItem.product;
-                            const rowId = "productRow" + index;
-                            const rowHtml = 
-                                '<tr id="' + rowId + '" class="cart-row">' +
-                                    '<td><img src="' + getBaseURL() +"Images/"+ product.imageURI + '" alt="' + product.productName + '"></td>' +
-                                    '<td>' + product.productName + '</td>' +
-                                    '<td class="price">' + product.price.toFixed(2) + '</td>' +
-                                    '<td>' +
-                                    '<input type="number" class="quantity" id="quantity_' + product.productID + '" value="' + cartItem.quantity + '" min="1">' +
-                                '</td>' +
-                                    '<td>' +
-                                        '<button class="btn btn-danger" onclick="deleteProduct(' + product.productID + ', \'' + rowId + '\')">Delete</button>' +
-                                    '</td>' +
-                                '</tr>';
-                            cartTableBody.innerHTML += rowHtml;
+            if (cartItemList.length === 0) {
+                cartTableBody.innerHTML = '<tr><td colspan="5" class="text-center">Your cart is empty. <a href="' + getBaseURL() + 'Home.jsp">Go to shopping</a></td></tr>';
+                totalPriceContainer.style.display = 'none';
+                buttonsContainer.style.display = 'none';
+            } else {
+                // Build the entire table rows as a single string first
+                let rowsHtml = '';
 
-                            document.getElementById("quantity_" + product.productID).addEventListener("change", function(event) {
-                                const newQuantity = event.target.value;
-                                updateQuantity(product.productID, newQuantity);
-                            });
-                        });
+                cartItemList.forEach(function (cartItem, index) {
+                    const product = cartItem.product;
+                    const rowId = "productRow" + index;
 
-                        totalPriceContainer.style.display = 'block';
-                        buttonsContainer.style.display = 'block';
-                        updateTotalPrice();
-                    }
-                },
-                function (jqXHR) {
-                    alert("Error loading cart: " + jqXHR.responseText);
-                }
-            );
+                    // Build the HTML for each row
+                    rowsHtml += 
+                        '<tr id="' + rowId + '" class="cart-row">' +
+                            '<td><img src="' + getBaseURL() +"Images/"+ product.imageURI + '" alt="' + product.productName + '"></td>' +
+                            '<td>' + product.productName + '</td>' +
+                            '<td class="price">' + product.price.toFixed(2) + '</td>' +
+                            '<td>' +
+                            '<input type="number" class="quantity" id="quantity_' + product.productID + '" value="' + cartItem.quantity + '" min="1">' +
+                        '</td>' +
+                            '<td>' +
+                                '<button class="btn btn-danger" onclick="deleteProduct(' + product.productID + ', \'' + rowId + '\')">Delete</button>' +
+                            '</td>' +
+                        '</tr>';
+                });
+
+                // Update the table body in one operation
+                cartTableBody.innerHTML = rowsHtml;
+
+                // Attach event listeners after the DOM has been updated
+                cartItemList.forEach(function (cartItem) {
+                    const product = cartItem.product;
+                    document.getElementById("quantity_" + product.productID).addEventListener("change", function(event) {
+                        const newQuantity = event.target.value;
+                        updateQuantity(product.productID, newQuantity);
+                    });
+                });
+
+                // Show the total price and buttons container
+                totalPriceContainer.style.display = 'block';
+                buttonsContainer.style.display = 'block';
+
+                // Update the total price
+                updateTotalPrice();
+            }
+        },
+        function (jqXHR) {
+            alert("Error loading cart: " + jqXHR.responseText);
         }
+    );
+}
+
 
         // Function to proceed to checkout
         function checkout() {
