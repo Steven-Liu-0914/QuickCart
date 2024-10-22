@@ -40,7 +40,9 @@ QuickCart is a user-friendly e-commerce web portal that allows customers to brow
 - **Endpoint**: `quickcart.cqojz0ygx2o6.us-east-1.rds.amazonaws.com`
 - **Username**: `admin`
 - **Password**: See the uploaded report
-- **Schema Setup**: See the ER Diagram in the `/docs` folder for detailed design.
+- **Schema Setup**: See the ER Diagram for detailed design.
+![image](https://github.com/user-attachments/assets/ce9d1282-bf74-4b6b-a2fd-1a9d90529e75)
+
 
 ## Setup Guide
 
