@@ -36,7 +36,7 @@ CREATE TABLE `Cart` (
   PRIMARY KEY (`CartID`),
   KEY `UserID` (`UserID`),
   CONSTRAINT `Cart_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `Cart` (
 
 LOCK TABLES `Cart` WRITE;
 /*!40000 ALTER TABLE `Cart` DISABLE KEYS */;
-INSERT INTO `Cart` VALUES (1,1);
+INSERT INTO `Cart` VALUES (1,1),(2,3),(3,4),(4,5);
 /*!40000 ALTER TABLE `Cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,7 +66,7 @@ CREATE TABLE `CartItem` (
   KEY `ProductID` (`ProductID`),
   CONSTRAINT `CartItem_ibfk_1` FOREIGN KEY (`CartID`) REFERENCES `Cart` (`CartID`),
   CONSTRAINT `CartItem_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,6 +75,7 @@ CREATE TABLE `CartItem` (
 
 LOCK TABLES `CartItem` WRITE;
 /*!40000 ALTER TABLE `CartItem` DISABLE KEYS */;
+INSERT INTO `CartItem` VALUES (10,2,5,1),(17,2,2,2),(18,2,1,1),(37,1,2,1);
 /*!40000 ALTER TABLE `CartItem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +94,7 @@ CREATE TABLE `Order` (
   PRIMARY KEY (`OrderID`),
   KEY `UserID` (`UserID`),
   CONSTRAINT `Order_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +103,7 @@ CREATE TABLE `Order` (
 
 LOCK TABLES `Order` WRITE;
 /*!40000 ALTER TABLE `Order` DISABLE KEYS */;
-INSERT INTO `Order` VALUES (1,1,'2024-10-19 12:39:45',1504.94);
+INSERT INTO `Order` VALUES (1,1,'2024-10-19 12:39:45',1504.94),(2,3,'2024-10-20 07:10:32',3954.95),(3,4,'2024-10-20 09:58:57',1499.98),(4,4,'2024-10-20 10:11:57',1369.92),(5,4,'2024-10-20 13:31:08',99.97),(6,1,'2024-10-22 15:05:25',3704.85);
 /*!40000 ALTER TABLE `Order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +125,7 @@ CREATE TABLE `OrderItem` (
   KEY `ProductID` (`ProductID`),
   CONSTRAINT `OrderItem_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `Order` (`OrderID`),
   CONSTRAINT `OrderItem_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +134,7 @@ CREATE TABLE `OrderItem` (
 
 LOCK TABLES `OrderItem` WRITE;
 /*!40000 ALTER TABLE `OrderItem` DISABLE KEYS */;
-INSERT INTO `OrderItem` VALUES (1,1,1,2,699.99),(2,1,6,1,29.99),(3,1,11,1,14.99),(4,1,15,2,29.99);
+INSERT INTO `OrderItem` VALUES (1,1,1,2,699.99),(2,1,6,1,29.99),(3,1,11,1,14.99),(4,1,15,2,29.99),(5,2,2,3,1299.99),(6,2,6,1,29.99),(7,2,13,1,24.99),(8,3,1,1,699.99),(9,3,5,1,799.99),(10,4,4,2,249.99),(11,4,3,3,199.99),(12,4,8,3,89.99),(13,5,6,2,29.99),(14,5,10,1,39.99),(15,6,1,1,699.99),(16,6,5,1,799.99),(17,6,2,1,1299.99),(18,6,4,1,249.99),(19,6,3,1,199.99),(20,6,6,1,29.99),(21,6,8,1,89.99),(22,6,10,1,39.99),(23,6,7,1,49.99),(24,6,9,1,119.99),(25,6,15,1,29.99),(26,6,13,1,24.99),(27,6,14,1,34.99),(28,6,12,1,19.99),(29,6,11,1,14.99);
 /*!40000 ALTER TABLE `OrderItem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -213,7 +214,7 @@ CREATE TABLE `Review` (
   CONSTRAINT `Review_ibfk_1` FOREIGN KEY (`UserID`) REFERENCES `User` (`UserID`),
   CONSTRAINT `Review_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `Product` (`ProductID`),
   CONSTRAINT `Review_ibfk_3` FOREIGN KEY (`OrderID`) REFERENCES `Order` (`OrderID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,6 +223,7 @@ CREATE TABLE `Review` (
 
 LOCK TABLES `Review` WRITE;
 /*!40000 ALTER TABLE `Review` DISABLE KEYS */;
+INSERT INTO `Review` VALUES (1,1,1,1,5.00,'Quite Nice Product, Recommend','2024-10-19 15:01:01'),(2,1,2,1,4.00,'Good!','2024-10-20 00:00:00'),(3,3,2,2,5.00,'Quite Nice Product, Recommend','2024-10-20 07:41:12'),(4,4,5,3,4.00,'Good!','2024-10-20 10:02:39'),(5,1,5,6,5.00,'Quite Nice Product, Recommend','2024-10-22 15:06:25'),(6,1,3,6,5.00,'Quite Nice Product, Recommend','2024-10-22 15:06:25'),(7,1,6,6,3.00,'Just so so ...','2024-10-22 15:06:25'),(8,1,7,6,4.00,'Not Bad !','2024-10-22 15:06:25'),(9,1,8,6,1.00,'Not Recommended At All !','2024-10-22 15:06:25'),(10,1,9,6,5.00,'Quite Nice Product, Recommend','2024-10-22 15:06:25'),(11,1,13,6,4.00,'Good!','2024-10-22 15:06:25');
 /*!40000 ALTER TABLE `Review` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +243,7 @@ CREATE TABLE `User` (
   `PhoneNumber` varchar(20) DEFAULT NULL,
   `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -250,9 +252,13 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'test user 333','e055f7d4952c8c19cf3b46dd6c1ae279e73aa5372028df3a72d2b4cb70303250','qtSDDw10vkTETXPxsr2lxT6ccmH4ppVpHS8p4fiWbAw=','test@test.com','11111111','2024-10-19 12:27:50');
+INSERT INTO `User` VALUES (1,'Dummy User - Tom','498540264b113ee81a6464953b5b479d7b7c96077f43bfb73ab85397fa5939c0','Ei75TwIYvkNZjoGDotPoMHFiq2tPqvhHTlD4gGL5gS0=','dummy1@test.com','11111111','2024-10-19 12:27:50'),(2,'Dummy User - Sarah','2916ce57700d73516c5f4f8410024d520b4aba61a9740c8570a70a4c4188e24b','eCHLWgHNVCAOMrjvzUwJt4ea7tT1ifpo8MRy1aEjSYU=','dummy2@test.com','22222222','2024-10-20 05:35:22'),(3,'Dummy User - Leao','ced39130d62e8d8c8e9e39f57c0cd720e48ec28c39497623dde55546247ab674','ncDu5Vq17Hqna7/ZklvfSjxjYOCgHQDk0XJoFfCdHwA=','dummy3@test.com','33333333','2024-10-20 07:07:51'),(4,'Dummy User - Cindy','21bb84f6458aafb2cc2069cea343dbaa3400bd85078052c1c78b2d65ec5b4af3','HFNXScIO2l+MMpnLYQWvS/GLA2BJ7R/ly6B0akbtF/Y=','dummy4@test.com','44444444','2024-10-20 09:35:18'),(5,'Dummy User - Paul','1f06f6715334514e79bf7ed0e874687d007e4026b93dd4c336e3e5629ab0a2fe','kkCAIw1twWbRzWu/98wPMAbvimzydpssRTpMldv423M=','dummy5@test.com','55555555','2024-10-20 10:25:31');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'quickcart'
+--
 
 --
 -- Dumping routines for database 'quickcart'
@@ -508,6 +514,38 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_create_user` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`admin`@`%` PROCEDURE `sp_create_user`(
+    IN _displayName VARCHAR(255),    -- Display Name
+    IN _passwordHash VARCHAR(255),   -- Hashed password
+    IN _salt VARCHAR(255),           -- Salt for password hashing
+    IN _email VARCHAR(255),          -- User Email
+    IN _phoneNumber VARCHAR(20),     -- Phone Number
+    OUT _newUserId INT               -- Output parameter for new User ID
+)
+BEGIN
+    -- Insert the new user into the User table
+    INSERT INTO User (DisplayName, Password_Hash, Password_Salt, Email, PhoneNumber)
+    VALUES (_displayName, _passwordHash, _salt, _email, _phoneNumber);
+
+    -- Get the last inserted user ID
+    SET _newUserId = LAST_INSERT_ID();
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_orderitem_create` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -745,7 +783,8 @@ FROM
 JOIN 
     User u ON r.UserID = u.UserID  -- Join on the UserID to get user information
 WHERE 
-    r.ProductID = _product_id;
+    r.ProductID = _product_id
+order by r.commentedAt desc;
 
 END ;;
 DELIMITER ;
@@ -932,4 +971,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-19 22:48:36
+-- Dump completed on 2024-10-22 23:13:15

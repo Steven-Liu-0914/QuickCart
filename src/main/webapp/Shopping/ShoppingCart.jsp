@@ -196,6 +196,11 @@
 
         // Function to proceed to checkout
         function checkout() {
+        	
+        	const confirmCheckOut = confirm("Are you sure you want to check out all item(s) in the cart?");
+        	
+        	  if (!confirmCheckOut) return;
+        	
             AjaxCall(
                 "Shopping/CheckOut",
                 "POST",
