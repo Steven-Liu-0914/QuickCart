@@ -76,9 +76,9 @@
 
             <div class="share-icons mt-5">
                 <p>Share this product:</p>
-                <a id="whatsappShare" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp</a>
-                <a id="facebookShare" target="_blank"><i class="bi bi-facebook"></i> Facebook</a>
-                <a id="twitterShare" target="_blank"><i class="bi bi-twitter"></i> Twitter</a>
+                <a id="whatsappShare" target="_blank"><i class="bi bi-whatsapp"></i> WhatsApp</a>           
+                <a id="twitterShare" target="_blank"><i class="bi bi-twitter"></i> Twitter(X)</a>
+                <a id="teleShare" target="_blank"><i class="bi bi-telegram"></i> Telegram</a>
             </div>
         </div>
     </div>
@@ -260,12 +260,12 @@
 
     function generateShareLinks(productId) {
         const currentURL = window.location.href;
-        const whatsappShareLink = 'https://wa.me/?text=Check out this product: ' + currentURL;
-        const facebookShareLink = 'https://www.facebook.com/sharer/sharer.php?u=' + currentURL;
-        const twitterShareLink = 'https://twitter.com/intent/tweet?url=' + currentURL + '&text=Check out this product!';
+        const whatsappShareLink = 'https://wa.me/?text=Check out this amazing product: ' + currentURL;
+        const teleShareLink = 'https://telegram.me/share/url?url=' + encodeURIComponent(currentURL) + '&text=' + encodeURIComponent('Check out this amazing product!');
+        const twitterShareLink = 'https://twitter.com/intent/tweet?url=' + currentURL + '&text=Check out this amazing product!';
 
         $('#whatsappShare').attr('href', whatsappShareLink);
-        $('#facebookShare').attr('href', facebookShareLink);
+        $('#teleShare').attr('href', teleShareLink);
         $('#twitterShare').attr('href', twitterShareLink);
     }
 
